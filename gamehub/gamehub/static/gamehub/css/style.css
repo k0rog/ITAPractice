@@ -1,0 +1,262 @@
+.games-list-container {
+    display: grid;
+    grid-template-columns: 1fr 2.5fr;
+    grid-column-gap: 10px;
+}
+
+.filters__toggle-button {
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    position: absolute;
+    background-color: #CCC;
+    z-index: 3;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 10px;
+    top: 10px;
+}
+.filters-toggle-button {
+
+}
+.filters__toggle-button>img {
+    width: 25px;
+    height: 30px;
+}
+
+/*filters styles start*/
+
+.filters {
+    background-color: #CCC;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.filters__heading {
+    margin: 10px 10px 0 50px;
+    border-bottom: 2px solid black;
+}
+
+.filters__form {
+    margin: 10px;
+}
+
+.filter-form {
+    display: grid;
+    grid-template-columns: repeat(2, 150px);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
+
+.filter-form > label {
+    font-size: 20px;
+}
+
+.filter-form > select {
+    background: none;
+    border: none;
+    border-bottom: 2px solid black;
+}
+
+    /* slider styles start */
+.slider {
+    padding: 10px 0;
+    grid-column: 1/3;
+    margin: 0 20px 20px 20px;
+}
+    /* noUiSlider styles */
+.noUi-active .noUi-tooltip {
+    display: block;
+}
+.noUi-connect {
+    background: #555;
+}
+.noUi-handle::after,
+.noUi-handle::before {
+    display: none;
+}
+.noUi-handle {
+    border-radius: 100px;
+}
+.noUi-target {
+    background-color: white;
+    border: none;
+    border-radius: 100px;
+    box-shadow: none;
+    height: 3px;
+}
+.noUi-horizontal .noUi-handle {
+    top: -8px;
+    width: 30px;
+    height: 20px;
+}
+
+.noUi-connect {
+    background-color: red;
+}
+    /* slider styles end */
+
+.filter-form > .filter-form__button {
+    margin: 10px auto;
+    grid-column: 1/3;
+    height: 30px;
+}
+/*filters styles end*/
+
+/*games-list styles start*/
+
+.games-list {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    /*search-form styles start*/
+.search-form {
+    width: auto;
+    float: right;
+}
+.search-form__input {
+    width: 250px;
+    height: 42px;
+    padding-left: 15px;
+    border-radius: 42px;
+    border: 2px solid #324b4e;
+    background: #EEE;
+    outline: none;
+    transition: .3s linear;
+}
+.search-form__input:focus {
+    width: 300px;
+}
+.search-form__button {
+    width: 34px;
+    height: 32px;
+    background: none;
+    border: none;
+    position: relative;
+    top: 13px;
+    right: 0;
+}
+.search-form__button:before {
+    content: url("../img/search.svg");
+    font-family: "Comic Sans MS", serif;
+    color: #324b4e;
+}
+    /*search-form styles end*/
+
+    /*game cards styles start*/
+.games {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    margin: 20px 0;
+}
+
+.game {
+    min-width: 250px;
+    min-height: 250px;
+    position: relative;
+    background-color: #555;
+    border-radius: 10px;
+}
+
+.game__image {
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    z-index: 1;
+}
+
+.description {
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
+    width: 100%;
+    background-color: rgba(85, 85, 85, 0.9);
+}
+
+.description__title {
+    color: white;
+    text-transform: uppercase;
+    font-size: 30px;
+    margin: 4px;
+}
+
+.genres {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
+.genres__genre {
+    background-color: white;
+    border-radius: 10px;
+    color: black;
+    font-size: 20px;
+    transition: 0.5s;
+    border: none;
+    padding: 3px 5px;
+    margin: 5px;
+}
+
+.genres__genre:hover {
+    background-color: black;
+    color: white;
+}
+
+.description__open-link {
+    background-color: rgb(250, 250, 30);
+    border: none;
+    transition: 0.5s;
+}
+.description__open-link:hover {
+    background-color: black;
+    color: rgb(250, 250, 30);
+}
+
+.description__must-button {
+    background-color: hotpink;
+    border: none;
+    transition: 0.5s;
+
+}
+.description__must-button:hover {
+    background-color: black;
+    color: hotpink;
+}
+    /*game cards styles end*/
+
+.page-numbers {
+    display: flex;
+    align-items: center;
+}
+
+.page-numbers__number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: #CCC;
+    border-radius: 30px;
+    margin: 0 10px;
+}
+
+.page-numbers__number_selected {
+    width: 50px;
+    height: 50px;
+    background-color: #AAA;
+}
+
+.page-numbers__number:hover {
+    opacity: 0.8;
+}
+/*games-list styles end*/
+

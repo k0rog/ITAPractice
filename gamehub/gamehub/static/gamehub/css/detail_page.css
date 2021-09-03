@@ -1,0 +1,117 @@
+.wrap {
+    display: grid;
+    grid-template-columns: 50% auto auto;
+    grid-column-gap: 20px;
+}
+
+.header-level2 {
+    margin: 10px 0;
+}
+
+/* description-block start */
+.description-block {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+
+.joiner {
+    display: flex;
+    align-items: center;
+}
+
+.description-block__title {
+    font-size: 35px;
+    text-transform: uppercase;
+}
+.description-block__must-button {
+    border-radius: 5px;
+    padding: 2px 15px;
+    font-size: 35px;
+    background-color: hotpink;
+    margin-left: 20px;
+    transition: 0.5s;
+}
+
+.description-block__must-button:hover {
+    background-color: rgb(250, 250, 50);
+}
+.description-block__description,
+.description-block__release-date
+{
+    font-weight: bold;
+    color: #555;
+    font-size: 15px;
+}
+.screenshots__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+}
+
+.screenshots__list > li > img {
+    width: 100%;
+    height: 110px;
+}
+/* description-block end */
+
+/* general information start */
+
+.ratings {
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 5px 10px 2px rgba(34, 60, 80, 0.2);
+    margin: 5px 0;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.user-ratings {
+    background-color: #88c452;
+}
+
+.critics-ratings {
+    background-color: #e38428;
+}
+
+.genres, .platforms {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.genres__genre, .platforms__platform {
+    margin: 5px;
+    background-color: cornflowerblue;
+    border-radius: 5px;
+    padding: 2px 5px;
+    font-size: 17px;
+    font-weight: bold;
+}
+/* general information end */
+
+/* tweets start */
+.tweets {
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+.tweet {
+    background-color: #777;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    padding: 5px;
+    margin: 10px 0;
+    color: white;
+}
+.tweet__text {
+    margin-bottom: 10px;
+}
+
+.tweet__description {
+    display: flex;
+    justify-content: space-between;
+}
+/* tweets end */

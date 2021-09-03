@@ -1,0 +1,118 @@
+{% extends 'gamehub/layout.html' %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'gamehub/css/detail_page.css' %}">
+{% endblock %}
+
+{% block title %}
+    <title>Detail page</title>
+{% endblock %}
+
+{% block content %}
+    <div class="wrap">
+
+    <section class="description-block">
+
+        <div class="joiner">
+        <h1 class="description-block__title">DOTA 2</h1>
+        <button class="button description-block__must-button">Must</button>
+        </div>
+
+        <h2 class="header-level2">Description</h2>
+        <p class="description-block__description">Lorem ipsum dolor sit amet, consectetur
+            adipisicing
+            elit. Ad aliquam asperiores cumque deleniti deserunt
+            dolore eligendi error quasi quo suscipit! Lorem ipsum dolor sit amet
+            , consectetur adipisicing elit. Alias atque commodi cumque, dolor ducimus illum iste
+            odio quam recusandae unde?</p>
+
+        <h2 class="header-level2">Release Date</h2>
+        <p class="description-block__release-date">July 2013</p>
+
+        <h2 class="header-level2">Screenshots</h2>
+        <div class="screenshots">
+            <ul class="screenshots__list">
+                <li><img src="{% static 'gamehub/img/dota_image1.jpg' %}" alt=""></li>
+                <li><img src="{% static 'gamehub/img/dota_image2.jpg' %}" alt=""></li>
+                <li><img src="{% static 'gamehub/img/dota_image3.jpg' %}" alt=""></li>
+                <li><img src="{% static 'gamehub/img/dota_image4.jpg' %}" alt=""></li>
+                <li><img src="{% static 'gamehub/img/dota_image5.jpg' %}" alt=""></li>
+                <li><img src="{% static 'gamehub/img/dota_image6.jpg' %}" alt=""></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="general-information">
+        <h2 class="header-level2">Ratings</h2>
+        <div class="user-ratings ratings">
+            <p>Users</p>
+            <p>7.6 (123 reviews)</p>
+        </div>
+
+        <div class="critics-ratings ratings">
+            <p>Critics</p>
+            <p>4.0 (123 reviews)</p>
+        </div>
+
+        <h2 class="header-level2">Genres</h2>
+        <ul class="genres">
+            <li class="genres__genre">MOBA</li>
+            <li class="genres__genre">Multiplayer</li>
+        </ul>
+        <h2 class="header-level2">Platforms</h2>
+        <ul class="platforms">
+            <li class="platforms__platform">PC</li>
+        </ul>
+    </section>
+
+    <section class="tweets">
+        <div class="tweet">
+            <p class="tweet__text">Lorem ipsum dolor sit amet, consectetur adipisicing
+                elit. Ad deserunt explicabo fugiat inventore iste suscipit? Accusamus
+                adipisci, animi commodi error eum exer</p>
+            <div class="tweet__description">
+                <span class="tweet__date">27.09.2021</span>
+                <span class="tweet__author">Auramenko Ilya</span>
+            </div>
+        </div>
+        <div class="tweet">
+            <p class="tweet__text">Lorem ipsum dolor sit amet, consectetur adipisicing
+                elit. Ad deserunt explicabo fugiat inventore iste suscipit? Accusamus
+                adipisci, animi commodi error eum exer</p>
+            <div class="tweet__description">
+                <span class="tweet__date">27.09.2021</span>
+                <span class="tweet__author">Auramenko Ilya</span>
+            </div>
+        </div>
+        <div class="tweet">
+            <p class="tweet__text">Lorem ipsum dolor sit amet, consectetur adipisicing
+                elit. Ad deserunt explicabo fugiat inventore iste suscipit? Accusamus
+                adipisci, animi commodi error eum exer</p>
+            <div class="tweet__description">
+                <span class="tweet__date">27.09.2021</span>
+                <span class="tweet__author">Auramenko Ilya</span>
+            </div>
+        </div>
+        <div class="tweet">
+            <p class="tweet__text">Lorem ipsum dolor sit amet, consectetur adipisicing
+                elit. Ad deserunt explicabo fugiat inventore iste suscipit? Accusamus
+                adipisci, animi commodi error eum exer</p>
+            <div class="tweet__description">
+                <span class="tweet__date">27.09.2021</span>
+                <span class="tweet__author">Auramenko Ilya</span>
+            </div>
+        </div>
+        <div class="tweet">
+            <p class="tweet__text">Lorem ipsum dolor sit amet, consectetur adipisicing
+                elit. Ad deserunt explicabo fugiat inventore iste suscipit? Accusamus
+                adipisci, animi commodi error eum exer</p>
+            <div class="tweet__description">
+                <span class="tweet__date">27.09.2021</span>
+                <span class="tweet__author">Auramenko Ilya</span>
+            </div>
+        </div>
+    </section>
+
+    </div>
+{% endblock %}
