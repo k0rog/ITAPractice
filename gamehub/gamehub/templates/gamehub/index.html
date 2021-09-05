@@ -49,75 +49,21 @@
         </form>
 
         <div class="games">
+            {% for game in games %}
             <div class="games__game game">
-                <img alt="dota 2" src="{% static 'gamehub/img/dota.png' %}" class="game__image"/>
+                <img alt="{{ game.name }}" src="{{ game.cover.url }}" class="game__image"/>
                 <div class="description">
-                    <span class="description__title">Dota 2</span>
+                    <span class="description__title">{{ game.name }}</span>
                     <ul class="description__genres genres">
-                        <li><button class="genres__genre">MOBA</button></li>
-                        <li><button class="genres__genre">Multiplayer</button></li>
+                        {% for genre in game.genres %}
+                        <li><button class="genres__genre">{{ genre.name }}</button></li>
+                        {% endfor %}
                     </ul>
-                    <a href="#" class="description__open-link button">Open</a>
+                    <a href="/{{ game.slug }}" class="description__open-link button">Open</a>
                     <button class="description__must-button button">Must</button>
                 </div>
             </div>
-            <div class="games__game game">
-                <img alt="dota 2" src="{% static 'gamehub/img/civilization5.png' %}" class="game__image"/>
-                <div class="description">
-                    <span class="description__title">Civilization 5</span>
-                    <ul class="description__genres genres">
-                        <li><button class="genres__genre">TBS</button></li>
-                    </ul>
-                    <a href="#" class="description__open-link button">Open</a>
-                    <button class="description__must-button button">Must</button>
-                </div>
-            </div>
-            <div class="games__game game">
-                <img alt="dota 2" src="{% static 'gamehub/img/dota.png' %}" class="game__image"/>
-                <div class="description">
-                    <span class="description__title">Dota 2</span>
-                    <ul class="description__genres genres">
-                        <li><button class="genres__genre">MOBA</button></li>
-                        <li><button class="genres__genre">Multiplayer</button></li>
-                    </ul>
-                    <a href="#" class="description__open-link button">Open</a>
-                    <button class="description__must-button button">Must</button>
-                </div>
-            </div>
-            <div class="games__game game">
-                <img alt="dota 2" src="{% static 'gamehub/img/civilization5.png' %}" class="game__image"/>
-                <div class="description">
-                    <span class="description__title">Civilization 5</span>
-                    <ul class="description__genres genres">
-                        <li><button class="genres__genre">TBS</button></li>
-                    </ul>
-                    <a href="#" class="description__open-link button">Open</a>
-                    <button class="description__must-button button">Must</button>
-                </div>
-            </div>
-            <div class="games__game game">
-                <img alt="dota 2" src="{% static 'gamehub/img/dota.png' %}" class="game__image"/>
-                <div class="description">
-                    <span class="description__title">Dota 2</span>
-                    <ul class="description__genres genres">
-                        <li><button class="genres__genre">MOBA</button></li>
-                        <li><button class="genres__genre">Multiplayer</button></li>
-                    </ul>
-                    <a href="#" class="description__open-link button">Open</a>
-                    <button class="description__must-button button">Must</button>
-                </div>
-            </div>
-            <div class="games__game game">
-                <img alt="dota 2" src="{% static 'gamehub/img/civilization5.png' %}" class="game__image"/>
-                <div class="description">
-                    <span class="description__title">Civilization 5</span>
-                    <ul class="description__genres genres">
-                        <li><button class="genres__genre">TBS</button></li>
-                    </ul>
-                    <a href="#" class="description__open-link button">Open</a>
-                    <button class="description__must-button button">Must</button>
-                </div>
-            </div>
+            {% endfor %}
         </div>
 
         <ul class="page-numbers">
