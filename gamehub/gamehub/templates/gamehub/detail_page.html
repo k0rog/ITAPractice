@@ -1,5 +1,6 @@
 {% extends 'gamehub/layout.html' %}
 {% load static %}
+{% load filters %}
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'gamehub/css/detail_page.css' %}">
@@ -15,30 +16,22 @@
     <section class="description-block">
 
         <div class="joiner">
-        <h1 class="description-block__title">DOTA 2</h1>
+        <h1 class="description-block__title">{{ game.name }}</h1>
         <button class="button description-block__must-button">Must</button>
         </div>
 
         <h2 class="header-level2">Description</h2>
-        <p class="description-block__description">Lorem ipsum dolor sit amet, consectetur
-            adipisicing
-            elit. Ad aliquam asperiores cumque deleniti deserunt
-            dolore eligendi error quasi quo suscipit! Lorem ipsum dolor sit amet
-            , consectetur adipisicing elit. Alias atque commodi cumque, dolor ducimus illum iste
-            odio quam recusandae unde?</p>
+        <p class="description-block__description">{{ game.summary }}</p>
 
         <h2 class="header-level2">Release Date</h2>
-        <p class="description-block__release-date">July 2013</p>
+        <p class="description-block__release-date">{{ game.first_release_date }}</p>
 
         <h2 class="header-level2">Screenshots</h2>
         <div class="screenshots">
             <ul class="screenshots__list">
-                <li><img src="{% static 'gamehub/img/dota_image1.jpg' %}" alt=""></li>
-                <li><img src="{% static 'gamehub/img/dota_image2.jpg' %}" alt=""></li>
-                <li><img src="{% static 'gamehub/img/dota_image3.jpg' %}" alt=""></li>
-                <li><img src="{% static 'gamehub/img/dota_image4.jpg' %}" alt=""></li>
-                <li><img src="{% static 'gamehub/img/dota_image5.jpg' %}" alt=""></li>
-                <li><img src="{% static 'gamehub/img/dota_image6.jpg' %}" alt=""></li>
+                {% for screenshot in screenshots %}
+                <li><img src="{{ screenshot.url }}" alt=""></li>
+                {% endfor %}
             </ul>
         </div>
     </section>
@@ -47,22 +40,25 @@
         <h2 class="header-level2">Ratings</h2>
         <div class="user-ratings ratings">
             <p>Users</p>
-            <p>7.6 (123 reviews)</p>
+            <p>{{ game.rating }} ({{ game.rating_count|reviews }})</p>
         </div>
 
         <div class="critics-ratings ratings">
             <p>Critics</p>
-            <p>4.0 (123 reviews)</p>
+            <p>{{ game.aggregated_rating }} ({{ game.aggregated_rating_count|reviews }})</p>
         </div>
 
         <h2 class="header-level2">Genres</h2>
         <ul class="genres">
-            <li class="genres__genre">MOBA</li>
-            <li class="genres__genre">Multiplayer</li>
+            {% for genre in game.genres %}
+            <li class="genres__genre">{{ genre.name }}</li>
+            {% endfor %}
         </ul>
         <h2 class="header-level2">Platforms</h2>
         <ul class="platforms">
-            <li class="platforms__platform">PC</li>
+            {% for platform in game.platforms %}
+            <li class="platforms__platform">{{ platform.abbreviation }}</li>
+            {% endfor %}
         </ul>
     </section>
 
