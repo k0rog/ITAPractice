@@ -47,25 +47,41 @@
 
 .filter-form {
     display: grid;
-    grid-template-columns: repeat(2, 150px);
+    grid-template-columns: repeat(1, 1fr);
     grid-column-gap: 10px;
     grid-row-gap: 10px;
 }
 
-.filter-form > label {
+.sort-option {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.sort-option:nth-child(3) {
+    flex-direction: column;
+}
+.sort-option > label {
     font-size: 20px;
 }
 
-.filter-form > select {
+.sort-option > select {
     background: none;
     border: none;
     border-bottom: 2px solid black;
 }
 
+.selected-filters {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 0 0 0;
+}
+.selected-filters > li {
+    margin: 5px 5px;
+}
     /* slider styles start */
 .slider {
     padding: 10px 0;
-    grid-column: 1/3;
     margin: 0 20px 20px 20px;
 }
     /* noUiSlider styles */
@@ -102,7 +118,6 @@
 
 .filter-form > .filter-form__button {
     margin: 10px auto;
-    grid-column: 1/3;
     height: 30px;
 }
 /*filters styles end*/
@@ -196,7 +211,7 @@
     justify-content: left;
 }
 
-.genres__genre {
+.list-element {
     background-color: white;
     border-radius: 10px;
     color: black;
@@ -207,7 +222,7 @@
     margin: 5px;
 }
 
-.genres__genre:hover {
+.list-element:hover {
     background-color: black;
     color: white;
 }

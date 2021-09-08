@@ -21,21 +21,37 @@
 
         <h2 class="filters__heading">Filters</h2>
         <form class="filter-form filters__form" action="" method="get">
+            <div class="sort-option">
             <label for="platform-picker">Platform</label>
             <select class="filter-form__platform-picker" size="1" name="platform" id="platform-picker">
                 <option value="PS5">PS5</option>
                 <option value="PC">PC</option>
                 <option value="XBox one">XBox one</option>
             </select>
+            <ul class="selected-filters">
+                <li class="list-element">PS5</li>
+                <li class="list-element">Xbox one</li>
+                <li class="list-element">PC</li>
+            </ul>
+            </div>
+            <div class="sort-option">
             <label for="genre-picker">Genre</label>
             <select class="filter-form__genre-picker" size="1" name="genre" id="genre-picker">
                 <option value="MOBA">MOBA</option>
                 <option value="TBS">TBS</option>
                 <option value="Multiplayer">Multiplayer</option>
             </select>
+            <ul class="selected-filters">
+                <li class="list-element">MOBA</li>
+                <li class="list-element">Multiplayer</li>
+                <li class="list-element">Shooter</li>
+            </ul>
+            </div>
+            <div class="sort-option">
             <label for="slider">Rating</label>
             <div class="filters-form__rating-slider slider" id="slider">
                 <div id="target"></div>
+            </div>
             </div>
             <input class="filter-form__button button" type="submit" value="Apply">
         </form>
@@ -56,7 +72,7 @@
                     <span class="description__title">{{ game.name }}</span>
                     <ul class="description__genres genres">
                         {% for genre in game.genres %}
-                        <li><button class="genres__genre">{{ genre.name }}</button></li>
+                        <li><button class="genres__genre list-element">{{ genre.name }}</button></li>
                         {% endfor %}
                     </ul>
                     <a href="/{{ game.slug }}" class="description__open-link button">Open</a>
