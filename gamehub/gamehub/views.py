@@ -1,6 +1,5 @@
 from .utils import igdb_connector, twitter_connector
 from django.views.generic import ListView, DetailView
-import re
 from django.http import Http404
 
 
@@ -15,15 +14,12 @@ class GamesListView(ListView):
         # Поэтому я задаю фильтры в словаре, а потом паршу его в igdb_connector'e.
         # Возможно, это не правильно и нужно исправлять, жду фидбек)
         params = {
-            'fields': 'name, genres.name, cover.url',
+            'fields': 'name, genres.name, cover.url, slug',
             'limit': 6,
             'where': 'cover != null'
         }
         games = igdb_connector.get_game_list(params)
 
-        reg = re.compile('[^a-zA-Z ]')
-        for game in games:
-            game['slug'] = reg.sub('', game['name']).lower().replace(' ', '-')
         return games
 
 
@@ -41,7 +37,6 @@ class GameDetailView(DetailView):
                                        params=params)
         if not game:
             raise Http404('Game not found')
-
         return game
 
     def get_context_data(self, **kwargs):
@@ -55,14 +50,19 @@ class GameDetailView(DetailView):
                 'sort': 'popularity desc'
             },
         )
-        # Имеет хэштег с названием игры И(логическое) английский язык твита
-        # search_query = context_data['object']['name']
-        # context_data['tweets'] = twitter_connector.get_tweets(f"\"{search_query}\" lang:en")
 
-        reg = re.compile('[^a-zA-Z ]')
-        search_query = reg.sub('', context_data['object']['name']).replace('  ', '')
-        print(search_query.replace([' ', '  '], '').split(' '))
-        search_query = " OR ".join(search_query.split(' '))
-        context_data['tweets'] = twitter_connector.get_tweets(f"({search_query}) lang:en")
+    # Тут вводим поисковой запрос к twitter api.
+
+    # Честно, без понятия, как сделать правильный поиск. Потому что некоторые игры называются
+    # слишком сложно и по хэштегу не поищешь (например, "THE LEGEND OF ZELDA: BREATH OF THE WILD - THE MASTER TRIALS").
+    # По упоминанию в твите тоже не ищет. Можно было бы выделить ключевые слова и искать по упоминанию их,
+    # я даже нашёл алгоритмы, но текст слишком маленький, да и работать это вряд ли будет.
+    # Ну я, собственно, сделал просто по упоминанию в твите названия игры и забил, так как не уверен, что
+    # смогу что-то придумать быстро. Но если тут это от меня требуется - скажи, я придумаю
+    # Но предупреждаю, что твиты с упоминанием некоторых игр могут содержать ругательства :(
+
+        game_name = (context_data['object']['name'])
+        query = f'"{game_name}" lang:en'
+        context_data['tweets'] = twitter_connector.get_tweets(query)
 
         return context_data
