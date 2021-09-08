@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'gamehub/css/normalize.css'%}">
+    <link rel="stylesheet" href="{% static 'gamehub/css/layout.css'%}">
+
+    {% block style %}
+    {% endblock %}
+
+    {% block title %}
+    {% endblock %}
+</head>
+<body>
+
+<header class="header">
+    <div class="wrap header__wrapper">
+        <a href="#" class="header__logo"><span>GameHub</span></a>
+    </div>
+</header>
+
+{% block content %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,136 @@
+{% extends 'gamehub/layout.html' %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'gamehub/libs/nouislider.min.css' %}">
+    <link rel="stylesheet" href="{% static 'gamehub/css/style.css' %}">
+{% endblock %}
+
+{% block title %}
+    <title>GameHub</title>
+{% endblock %}
+
+{% block content %}
+
+<main class="games-list-container wrap">
+
+    <aside class="filters">
+        <button class="filters__toggle-button">
+            <img src="{% static 'gamehub/img/triangle.svg' %}" alt="">
+        </button>
+
+        <h2 class="filters__heading">Filters</h2>
+        <form class="filter-form filters__form" action="" method="get">
+            <label for="platform-picker">Platform</label>
+            <select class="filter-form__platform-picker" size="1" name="platform" id="platform-picker">
+                <option value="PS5">PS5</option>
+                <option value="PC">PC</option>
+                <option value="XBox one">XBox one</option>
+            </select>
+            <label for="genre-picker">Genre</label>
+            <select class="filter-form__genre-picker" size="1" name="genre" id="genre-picker">
+                <option value="MOBA">MOBA</option>
+                <option value="TBS">TBS</option>
+                <option value="Multiplayer">Multiplayer</option>
+            </select>
+            <label for="slider">Rating</label>
+            <div class="filters-form__rating-slider slider" id="slider">
+                <div id="target"></div>
+            </div>
+            <input class="filter-form__button button" type="submit" value="Apply">
+        </form>
+    </aside>
+
+    <section class="games-list">
+
+        <form class="search-form" action="" method="get">
+          <input class="search-form__input" name="search" placeholder="Type here..." type="search">
+          <button class="search-form__button" type="submit"></button>
+        </form>
+
+        <div class="games">
+            <div class="games__game game">
+                <img alt="dota 2" src="{% static 'gamehub/img/dota.png' %}" class="game__image"/>
+                <div class="description">
+                    <span class="description__title">Dota 2</span>
+                    <ul class="description__genres genres">
+                        <li><button class="genres__genre">MOBA</button></li>
+                        <li><button class="genres__genre">Multiplayer</button></li>
+                    </ul>
+                    <a href="#" class="description__open-link button">Open</a>
+                    <button class="description__must-button button">Must</button>
+                </div>
+            </div>
+            <div class="games__game game">
+                <img alt="dota 2" src="{% static 'gamehub/img/civilization5.png' %}" class="game__image"/>
+                <div class="description">
+                    <span class="description__title">Civilization 5</span>
+                    <ul class="description__genres genres">
+                        <li><button class="genres__genre">TBS</button></li>
+                    </ul>
+                    <a href="#" class="description__open-link button">Open</a>
+                    <button class="description__must-button button">Must</button>
+                </div>
+            </div>
+            <div class="games__game game">
+                <img alt="dota 2" src="{% static 'gamehub/img/dota.png' %}" class="game__image"/>
+                <div class="description">
+                    <span class="description__title">Dota 2</span>
+                    <ul class="description__genres genres">
+                        <li><button class="genres__genre">MOBA</button></li>
+                        <li><button class="genres__genre">Multiplayer</button></li>
+                    </ul>
+                    <a href="#" class="description__open-link button">Open</a>
+                    <button class="description__must-button button">Must</button>
+                </div>
+            </div>
+            <div class="games__game game">
+                <img alt="dota 2" src="{% static 'gamehub/img/civilization5.png' %}" class="game__image"/>
+                <div class="description">
+                    <span class="description__title">Civilization 5</span>
+                    <ul class="description__genres genres">
+                        <li><button class="genres__genre">TBS</button></li>
+                    </ul>
+                    <a href="#" class="description__open-link button">Open</a>
+                    <button class="description__must-button button">Must</button>
+                </div>
+            </div>
+            <div class="games__game game">
+                <img alt="dota 2" src="{% static 'gamehub/img/dota.png' %}" class="game__image"/>
+                <div class="description">
+                    <span class="description__title">Dota 2</span>
+                    <ul class="description__genres genres">
+                        <li><button class="genres__genre">MOBA</button></li>
+                        <li><button class="genres__genre">Multiplayer</button></li>
+                    </ul>
+                    <a href="#" class="description__open-link button">Open</a>
+                    <button class="description__must-button button">Must</button>
+                </div>
+            </div>
+            <div class="games__game game">
+                <img alt="dota 2" src="{% static 'gamehub/img/civilization5.png' %}" class="game__image"/>
+                <div class="description">
+                    <span class="description__title">Civilization 5</span>
+                    <ul class="description__genres genres">
+                        <li><button class="genres__genre">TBS</button></li>
+                    </ul>
+                    <a href="#" class="description__open-link button">Open</a>
+                    <button class="description__must-button button">Must</button>
+                </div>
+            </div>
+        </div>
+
+        <ul class="page-numbers">
+            <li class="page-numbers__number page-numbers__number_selected"><span>1</span></li>
+            <li class="page-numbers__number"><span>2</span></li>
+            <li class="page-numbers__number"><span>3</span></li>
+        </ul>
+    </section>
+</main>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'gamehub/libs/nouislider.min.js' %}"></script>
+    <script src="{% static 'gamehub/js/main_page.js' %}"></script>
+{% endblock %}
