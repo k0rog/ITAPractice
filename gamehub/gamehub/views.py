@@ -1,7 +1,7 @@
-from .modules import igdb_connector
+from .utils import igdb_connector, twitter_connector
 from django.views.generic import ListView, DetailView
-from datetime import datetime
 import re
+from django.http import Http404
 
 
 class GamesListView(ListView):
@@ -39,19 +39,13 @@ class GameDetailView(DetailView):
         }
         game = igdb_connector.get_game(self.kwargs['slug'],
                                        params=params)
-
-        game['first_release_date'] = datetime.fromtimestamp(game['first_release_date']).strftime('%B %d, %Y')
-
-        if 'rating' in game:
-            game['rating'] = round(game['rating']/10, 1)
-        if 'aggregated_rating' in game:
-            game['aggregated_rating'] = round(game['aggregated_rating']/10, 1)
+        if not game:
+            raise Http404('Game not found')
 
         return game
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data()
-
         context_data['screenshots'] = igdb_connector.get_data_from_endpoint(
             endpoint='https://api.igdb.com/v4/screenshots',
             params={
@@ -61,4 +55,14 @@ class GameDetailView(DetailView):
                 'sort': 'popularity desc'
             },
         )
+        # Имеет хэштег с названием игры И(логическое) английский язык твита
+        # search_query = context_data['object']['name']
+        # context_data['tweets'] = twitter_connector.get_tweets(f"\"{search_query}\" lang:en")
+
+        reg = re.compile('[^a-zA-Z ]')
+        search_query = reg.sub('', context_data['object']['name']).replace('  ', '')
+        print(search_query.replace([' ', '  '], '').split(' '))
+        search_query = " OR ".join(search_query.split(' '))
+        context_data['tweets'] = twitter_connector.get_tweets(f"({search_query}) lang:en")
+
         return context_data

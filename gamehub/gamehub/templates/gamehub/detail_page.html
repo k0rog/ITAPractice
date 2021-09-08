@@ -63,51 +63,16 @@
     </section>
 
     <section class="tweets">
+        <h2 class="header-level2">{{ game.name }} tweets</h2>
+        {% for tweet in tweets %}
         <div class="tweet">
-            <p class="tweet__text">Lorem ipsum dolor sit amet, consectetur adipisicing
-                elit. Ad deserunt explicabo fugiat inventore iste suscipit? Accusamus
-                adipisci, animi commodi error eum exer</p>
+            <p class="tweet__text">{{ tweet.text }}</p>
             <div class="tweet__description">
-                <span class="tweet__date">27.09.2021</span>
-                <span class="tweet__author">Auramenko Ilya</span>
+                <span class="tweet__date">{{ tweet.created_at }}</span>
+                <span class="tweet__author">{{ tweet.author_username }}</span>
             </div>
         </div>
-        <div class="tweet">
-            <p class="tweet__text">Lorem ipsum dolor sit amet, consectetur adipisicing
-                elit. Ad deserunt explicabo fugiat inventore iste suscipit? Accusamus
-                adipisci, animi commodi error eum exer</p>
-            <div class="tweet__description">
-                <span class="tweet__date">27.09.2021</span>
-                <span class="tweet__author">Auramenko Ilya</span>
-            </div>
-        </div>
-        <div class="tweet">
-            <p class="tweet__text">Lorem ipsum dolor sit amet, consectetur adipisicing
-                elit. Ad deserunt explicabo fugiat inventore iste suscipit? Accusamus
-                adipisci, animi commodi error eum exer</p>
-            <div class="tweet__description">
-                <span class="tweet__date">27.09.2021</span>
-                <span class="tweet__author">Auramenko Ilya</span>
-            </div>
-        </div>
-        <div class="tweet">
-            <p class="tweet__text">Lorem ipsum dolor sit amet, consectetur adipisicing
-                elit. Ad deserunt explicabo fugiat inventore iste suscipit? Accusamus
-                adipisci, animi commodi error eum exer</p>
-            <div class="tweet__description">
-                <span class="tweet__date">27.09.2021</span>
-                <span class="tweet__author">Auramenko Ilya</span>
-            </div>
-        </div>
-        <div class="tweet">
-            <p class="tweet__text">Lorem ipsum dolor sit amet, consectetur adipisicing
-                elit. Ad deserunt explicabo fugiat inventore iste suscipit? Accusamus
-                adipisci, animi commodi error eum exer</p>
-            <div class="tweet__description">
-                <span class="tweet__date">27.09.2021</span>
-                <span class="tweet__author">Auramenko Ilya</span>
-            </div>
-        </div>
+        {% endfor %}
     </section>
 
     </div>

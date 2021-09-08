@@ -12,6 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 os.environ['SECRET_KEY'] = 'django-insecure-5=qx+gt@jfv7wwiv(s1u#aztmo-t=r4o7@1y&wwfgw)$vf460z'
 os.environ['Client_id'] = 'wm1nb6p094b62w3amq21mbbnx418hu'
 os.environ['Client_secret'] = 'scur949jwewiphhxwqvuicuilbwmcc'
+os.environ['Bearer_token'] = 'AAAAAAAAAAAAAAAAAAAAAKzZTQEAAAAAka8KZhKajSZfaXmr4ZOS0ncipl0%3DVkTwjUbKn4cIPUSgKz9UjxC632RpW2OIa0B7UKKjxaXNA7s9eG'
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
