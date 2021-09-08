@@ -17,7 +17,7 @@ def get_game(game_name, params):
 
     response = get_data_from_endpoint('https://api.igdb.com/v4/games/', params=params)
 
-    # Возвращает игры по степени сопадения. Если не нашло, поднимем 404, а если нашло - вернём самую вероятную
+    # Возвращает игры по степени сопадения. Если не нашло - поднимем 404, а если нашло - вернём самую вероятную
     if len(response) == 0:
         return None
     game = response[0]

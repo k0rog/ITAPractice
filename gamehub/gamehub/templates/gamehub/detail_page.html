@@ -64,7 +64,8 @@
 
     <section class="tweets">
         <h2 class="header-level2">{{ game.name }} tweets</h2>
-        {% for tweet in tweets %}
+        {% if tweets  %}
+         {% for tweet in tweets %}
         <div class="tweet">
             <p class="tweet__text">{{ tweet.text }}</p>
             <div class="tweet__description">
@@ -73,6 +74,10 @@
             </div>
         </div>
         {% endfor %}
+        {% else %}
+            <p>No tweets found in the last 7 days</p>
+        {% endif %}
+
     </section>
 
     </div>
