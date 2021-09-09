@@ -39,11 +39,20 @@ a {
     box-shadow: 0 3px 2px 0 #000;
     z-index: 100;
     position: relative;
+    justify-content: space-between;
 }
 
 .header__logo {
     font-size: 25px;
     font-weight: bold;
     margin: 5px;
+}
+
+.user-activities {
+    display: flex;
+}
+.user-activities__activity {
+    border-radius: 0;
+    background-color: #EEE;
 }
 /*header styles end*/

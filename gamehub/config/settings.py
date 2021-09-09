@@ -26,7 +26,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'gamehub',
+    'users.apps.UsersConfig'
 ]
+
+AUTH_USER_MODEL = 'users.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,9 +55,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
-            'libraries': {
-                'filters': 'gamehub.filters',
-            }
         },
     },
 ]
@@ -63,8 +63,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'drkjuqni',
+        'USER': 'drkjuqni',
+        'PASSWORD': 'IYje3plhx5_nBTCKZm-ve1ZZqWxZtZvG',
+        'HOST': 'hattie.db.elephantsql.com',
+        'PORT': 5432
     }
 }
 
