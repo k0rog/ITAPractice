@@ -3,10 +3,6 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# У меня винда, поэтому баш циклы, которые в интернетике предлагают - не подходят
-# И команды export, соответственно, нет. Её windows-аналог SET почему-то не работает.
-# Поэтому (пока что) я захардкодил токены. Пользуйся, если нужно :)
-# Чуть позже обязательно поищу решение
 os.environ['SECRET_KEY'] = 'django-insecure-5=qx+gt@jfv7wwiv(s1u#aztmo-t=r4o7@1y&wwfgw)$vf460z'
 os.environ['Client_id'] = 'wm1nb6p094b62w3amq21mbbnx418hu'
 os.environ['Client_secret'] = 'scur949jwewiphhxwqvuicuilbwmcc'
@@ -14,6 +10,9 @@ os.environ['Bearer_token'] = 'AAAAAAAAAAAAAAAAAAAAAKzZTQEAAAAAka8KZhKajSZfaXmr4Z
                              '%3DVkTwjUbKn4cIPUSgKz9UjxC632RpW2OIa0B7UKKjxaXNA7s9eG '
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
+IGDB_CLIENT_ID = os.environ.get('Client_id')
+IGDB_CLIENT_SECRET = os.environ.get('Client_secret')
+TWITTER_BEARER_TOKEN = os.environ.get('Bearer_token')
 
 DEBUG = True
 
@@ -86,7 +85,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC+3'
+TIME_ZONE = 'Europe/Minsk'
 
 USE_I18N = True
 
@@ -97,3 +96,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
