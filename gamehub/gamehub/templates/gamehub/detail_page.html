@@ -1,13 +1,12 @@
 {% extends 'gamehub/layout.html' %}
 {% load static %}
-{% load filters %}
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'gamehub/css/detail_page.css' %}">
 {% endblock %}
 
 {% block title %}
-    <title>Detail page</title>
+    <title>{{ game.name }}</title>
 {% endblock %}
 
 {% block content %}

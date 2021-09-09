@@ -19,6 +19,10 @@
 <header class="header">
     <div class="wrap header__wrapper">
         <a href="#" class="header__logo"><span>GameHub</span></a>
+        <ul class="user-activities">
+            <li><a href="{% url 'registration' %}" class="button user-activities__activity">Sign in</a></li>
+            <li><a href="{% url 'authorization' %}" class="button user-activities__activity">Registration</a></li>
+        </ul>
     </div>
 </header>
 
