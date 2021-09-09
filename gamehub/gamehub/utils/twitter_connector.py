@@ -1,50 +1,48 @@
-import os
 import requests
 from datetime import datetime
+from django.conf import settings
 
 
-_headers = {
-    'Authorization': f'Bearer {os.environ.get("Bearer_token")}'
-}
+class TwitterWrapper:
+    def __init__(self):
+        self.__headers = {
+            'Authorization': f'Bearer {settings.TWITTER_BEARER_TOKEN}'
+        }
+        self.__params = {
+            'tweet.fields': 'text,created_at',
+            'user.fields': 'username',
+            'expansions': 'author_id',
+        }
 
-_params = {
-    'tweet.fields': 'text,created_at',
-    'user.fields': 'username',
-    'expansions': 'author_id',
-}
+    def get_tweets(self, query):
+        self.__params['query'] = query
 
+        response = requests.get("https://api.twitter.com/2/tweets/search/recent",
+                                headers=self.__headers, params=self.__params).json()
 
-def get_tweets(query):
-    _params['query'] = query
+        if response['meta']['result_count'] == 0:
+            return {}
 
-    response = requests.get("https://api.twitter.com/2/tweets/search/recent",
-                            headers=_headers, params=_params).json()
+        tweets = response['data']
+        users = response['includes']['users']
 
-    if response['meta']['result_count'] == 0:
-        return {}
+        # We combine dictionaries for only the first five tweets. By default, 10 pieces come, you can't get less
+        # according to the endpoint documentation. And it makes no sense to send so many tweets to a page.
+        for i, tweet in enumerate(tweets):
+            for user in users:
+                if user['id'] == tweet['author_id']:
+                    tweet['author_username'] = user['username']
+                    users.remove(user)
+                break
+            if i == 4:
+                break
+        tweets = tweets[:5]
 
-    # Данные приходят в двух разных словарях!
-    tweets = response['data']
-    users = response['includes']['users']
+        # Format the dictionary
+        for tweet in tweets:
+            tweet.pop('id', None)
+            tweet.pop('author_id', None)
+            date = datetime.strptime(tweet['created_at'][:-5], '%Y-%m-%dT%H:%M:%S').strftime('%B %d')
+            tweet['created_at'] = date
 
-    # Объединяем словари только для пяти первых твитов. По умолчанию приходит 10 штук, меньше нельзя
-    # по документации ендпоинта. А отправлять столько твитов на страничку не имеет смысла
-    # (zip не поможет, так как они отсортированы не одинаково)
-    for i, tweet in enumerate(tweets):
-        for user in users:
-            if user['id'] == tweet['author_id']:
-                tweet['author_username'] = user['username']
-                users.remove(user)
-            break
-        if i == 4:
-            break
-    tweets = tweets[:5]
-
-    # Ну и форматируем словарик
-    for tweet in tweets:
-        tweet.pop('id', None)
-        tweet.pop('author_id', None)
-        date = datetime.strptime(tweet['created_at'][:-5], '%Y-%m-%dT%H:%M:%S').strftime('%B %d')
-        tweet['created_at'] = date
-
-    return tweets
+        return tweets

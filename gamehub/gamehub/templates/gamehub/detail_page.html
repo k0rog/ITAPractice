@@ -40,12 +40,22 @@
         <h2 class="header-level2">Ratings</h2>
         <div class="user-ratings ratings">
             <p>Users</p>
-            <p>{{ game.rating }} ({{ game.rating_count|reviews }})</p>
+            <p>{{ game.rating }} (
+                {% if game.rating_count %}
+                    {{ game.rating_count }} review{{game.rating_count|pluralize}}
+                {% else %}
+                    No reviews
+                {% endif %})</p>
         </div>
 
         <div class="critics-ratings ratings">
             <p>Critics</p>
-            <p>{{ game.aggregated_rating }} ({{ game.aggregated_rating_count|reviews }})</p>
+            <p>{{ game.rating }} (
+                {% if game.aggregated_rating %}
+                    {{ game.aggregated_rating_count }} review{{game.aggregated_rating_count|pluralize}}
+                {% else %}
+                    No reviews
+                {% endif %})</p>
         </div>
 
         <h2 class="header-level2">Genres</h2>
