@@ -1,9 +1,8 @@
-from django.forms import ModelForm
 from .models import CustomUser
 from django import forms
 
 
-class UserRegistrationForm(ModelForm):
+class UserRegistrationForm(forms.ModelForm):
     # Why is it not given the default date type? Weird
     birthday = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
@@ -43,4 +42,32 @@ class UserRegistrationForm(ModelForm):
         fields = ['username', 'email', 'first_name', 'last_name']
         help_texts = {
             'username': None,
+        }
+
+
+class UserAuthorizationForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        username = self.cleaned_data['username']
+        password = self.cleaned_data['password']
+
+        if not CustomUser.objects.filter(username=username).exists():
+            raise forms.ValidationError(f'Username {username} not found')
+
+        user = CustomUser.objects.filter(username=username).first()
+        if user and not user.check_password(password):
+            raise forms.ValidationError('Wrong password')
+
+        return self.cleaned_data
+
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'password']
+        help_texts = {
+            'username': None,
+        }
+        widgets = {
+            'password': forms.PasswordInput
         }

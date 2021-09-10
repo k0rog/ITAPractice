@@ -1,4 +1,11 @@
-.registration-form {
+.header-level1 {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 10px auto;
+    max-width: 110px;
+}
+
+.form {
     margin: 30px auto;
     display: flex;
     border: 1px solid black;
@@ -8,16 +15,12 @@
     max-width: 400px;
 }
 
-/*.wrap {*/
-/*    align-items: center;*/
-/*}*/
-
-.registration-form > input,
-.registration-form > label {
+.form > input,
+.form > label {
     margin: 5px 0;
 }
 
-.registration-form__button {
+.form__button {
     background-color: #999;
     padding: 5px;
     border-radius: 0;

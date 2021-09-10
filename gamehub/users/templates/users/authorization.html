@@ -6,16 +6,16 @@
 {% endblock %}
 
 {% block title %}
-    <title>Registration</title>
+    <title>Login</title>
 {% endblock %}
 
 {% block content %}
     <div class="wrap">
-        <h1 class="header-level1">Sign up</h1>
+        <h1 class="header-level1">Login</h1>
         <form action="" method="POST" class="form">
         {% csrf_token %}
         {{ form }}
-        <button type="submit" class="form__button">Register</button>
+        <button type="submit" class="form__button">Login</button>
         </form>
     </div>
 {% endblock %}
