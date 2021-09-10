@@ -1,17 +1,16 @@
-.wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .registration-form {
-    margin-top: 30px;
+    margin: 30px auto;
     display: flex;
     border: 1px solid black;
     flex-direction: column;
     padding: 30px;
     font-size: 20px;
+    max-width: 400px;
 }
+
+/*.wrap {*/
+/*    align-items: center;*/
+/*}*/
 
 .registration-form > input,
 .registration-form > label {
