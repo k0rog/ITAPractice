@@ -1,0 +1,12 @@
+.user-data>li {
+    display: flex;
+}
+
+.user-data>li>span{
+    display: block;
+    margin: 5px;
+    width: 100px;
+}
+.user-data>li>span:nth-child(1) {
+    border-right: 2px solid black;
+}
