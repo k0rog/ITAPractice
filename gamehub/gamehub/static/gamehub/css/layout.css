@@ -50,9 +50,23 @@ a {
 
 .user-activities {
     display: flex;
+    align-items: center;
+}
+.user-activities__greeting {
+    font-size: 20px;
+}
+.user-activities__profile {
+    text-decoration: underline;
 }
 .user-activities__activity {
+    font-size: 20px;
+    margin: 0 10px;
     border-radius: 0;
     background-color: #EEE;
+    padding: 5px;
+}
+
+.must-button {
+    background-color: hotpink;
 }
 /*header styles end*/

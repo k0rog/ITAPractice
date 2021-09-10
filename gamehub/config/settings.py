@@ -64,9 +64,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'drkjuqni',
-        'USER': 'drkjuqni',
-        'PASSWORD': 'IYje3plhx5_nBTCKZm-ve1ZZqWxZtZvG',
+        'NAME': 'xfjqhwas',
+        'USER': 'xfjqhwas',
+        'PASSWORD': 'NnkUzd4TRT9cA7KSQQLp6-dDTbXMt0_E',
         'HOST': 'hattie.db.elephantsql.com',
         'PORT': 5432
     }

@@ -18,11 +18,19 @@
 
 <header class="header">
     <div class="wrap header__wrapper">
-        <a href="#" class="header__logo"><span>GameHub</span></a>
-        <ul class="user-activities">
-            <li><a href="{% url 'registration' %}" class="button user-activities__activity">Sign in</a></li>
-            <li><a href="{% url 'authorization' %}" class="button user-activities__activity">Registration</a></li>
-        </ul>
+        <a href="{% url 'games' %}" class="header__logo"><span>GameHub</span></a>
+        <div class="user-activities">
+            {% if not request.user.is_authenticated %}
+            <a href="{% url 'registration' %}" class="button user-activities__activity">Sign up</a>
+            <a href="{% url 'authorization' %}" class="button user-activities__activity">Sign in</a>
+            {% else %}
+                <span class="user-activities__greeting">
+                    Hello, <a href="{% url 'profile_page' %}" class="user-activities__profile">{{ request.user.username }}!</a>
+                </span>
+                <button class="must-button user-activities__activity">My MUSTs</button>
+                <a href="{% url 'logout' %}" class="user-activities__activity">Logout</a>
+            {% endif %}
+        </div>
     </div>
 </header>
 
