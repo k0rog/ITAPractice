@@ -1,66 +1,62 @@
-from datetime import date
-from django.shortcuts import render
-from .forms import UserRegistrationForm, UserAuthorizationForm
+from django.views.generic.edit import CreateView
+from django.contrib.auth.views import LoginView
+from django.views.generic import TemplateView
+from django.urls import reverse_lazy
 from django.shortcuts import redirect
-from django.contrib.auth import authenticate, login, logout
-from django.http import Http404
-from .models import CustomUser
+from django.contrib.auth import authenticate, login
+from .forms import UserRegistrationForm, UserAuthorizationForm
+from .utils.functions import get_age_from_birth_date
+from django.core.mail import send_mail
 
 
-def register_user(request):
-    if request.method == 'GET':
-        form = UserRegistrationForm(request.POST or None)
-        return render(request, 'users/registration.html', {'form': form})
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST or None)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
-            user.birthday = form.cleaned_data['birthday']
-            user.save()
-            return redirect('authorization')
-        return render(request, 'users/registration.html', {'form': form})
+class SignUpView(CreateView):
+    template_name = 'users/registration.html'
+    success_url = reverse_lazy('authorization')
+    form_class = UserRegistrationForm
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.set_password(form.cleaned_data['password'])
+        self.object.age = get_age_from_birth_date(form.cleaned_data['birth_date'])
+        self.object.save()
+
+        # Should I do this in the other place?
+        send_mail(subject='Registration',
+                  message='You successfully registered at GameHub',
+                  from_email=None,
+                  recipient_list=[form.cleaned_data['email']],
+                  fail_silently=True)
+
+        return super().form_valid(form)
 
 
-def authorize_user(request):
-    if request.method == 'GET':
-        form = UserAuthorizationForm(request.POST or None)
-        return render(request, 'users/authorization.html', {'form': form})
-    elif request.method == 'POST':
-        form = UserAuthorizationForm(request.POST or None)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(username=username, password=password)
-            if user:
-                login(request, user)
-            return redirect('games')
-        return render(request, 'users/authorization.html', {'form': form})
+class SignInView(LoginView):
+    template_name = 'users/authorization.html'
+    authentication_form = UserAuthorizationForm
+    success_url = reverse_lazy('home')
 
-
-def logout_user(request):
-    if request.user.is_authenticated:
-        logout(request)
+    def form_valid(self, form):
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(username=username, password=password)
+        if user:
+            login(self.request, user)
         return redirect('games')
-    return redirect(request.build_absolute_uri())
 
 
-def profile_page(request):
-    if not request.user or not request.user.is_authenticated:
-        raise Http404('')
-    user = request.user
+class UserProfileView(TemplateView):
+    template_name = 'users/user_profile.html'
 
-    today = date.today()
-    born = user.birthday
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if request.method.lower() in self.http_method_names:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+            else:
+                handler = self.http_method_not_allowed
+            return handler(request, *args, **kwargs)
+        else:
+            return redirect('login')
 
-    age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
-
-    data = {
-        'username': user.username,
-        'email': user.email,
-        'first_name': user.first_name,
-        'last_name': user.last_name,
-        'age': age
-    }
-
-    return render(request, 'users/user_profile.html', data)
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        return self.render_to_response({'user': user})

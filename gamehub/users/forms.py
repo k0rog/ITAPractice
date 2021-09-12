@@ -1,16 +1,24 @@
 from .models import CustomUser
 from django import forms
+from .utils.functions import get_age_from_birth_date
 
 
 class UserRegistrationForm(forms.ModelForm):
     # Why is it not given the default date type? Weird
-    birthday = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    birth_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
     password = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(widget=forms.PasswordInput, label='Repeat password')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+    def clean_birth_date(self):
+        birth_date = self.cleaned_data['birth_date']
+        age = get_age_from_birth_date(birth_date)
+        if age < 12:
+            raise forms.ValidationError('You are too small to register!')
+        return birth_date
 
     def clean_username(self):
         username = self.cleaned_data['username']
@@ -46,7 +54,7 @@ class UserRegistrationForm(forms.ModelForm):
 
 
 class UserAuthorizationForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, request, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
     def clean(self):
