@@ -6,18 +6,18 @@
 {% endblock %}
 
 {% block title %}
-    <title>{{ username }}</title>
+    <title>{{ user.username }}</title>
 {% endblock %}
 
 {% block content %}
 <div class="wrap">
     <h1>My profile</h1>
     <ul class="user-data">
-        <li><span>Username</span><span>{{ username }}</span></li>
-        <li><span>Email</span><span>{{ email }}</span></li>
-        <li><span>First name</span><span>{{ first_name }}</span></li>
-        <li><span>Last name</span><span>{{ last_name }}</span></li>
-        <li><span>Age</span><span>{{ age }}</span></li>
+        <li><span>Username</span><span>{{ user.username }}</span></li>
+        <li><span>Email</span><span>{{ user.email }}</span></li>
+        <li><span>First name</span><span>{{ user.first_name }}</span></li>
+        <li><span>Last name</span><span>{{ user.last_name }}</span></li>
+        <li><span>Age</span><span>{{ user.age }}</span></li>
     </ul>
 </div>
 {% endblock %}
