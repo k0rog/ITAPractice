@@ -16,7 +16,11 @@
 
         <div class="joiner">
         <h1 class="description-block__title">{{ game.name }}</h1>
-        <button class="button description-block__must-button">Must</button>
+            {% if game.in_musts %}
+            <button class="button game-unmust-button" id="igdb_id={{ game.id }}">unMust</button>
+            {% else %}
+            <button class="button game-must-button" id="igdb_id={{ game.id }}">Must</button>
+            {% endif %}
         </div>
 
         <h2 class="header-level2">Description</h2>

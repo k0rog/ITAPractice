@@ -70,3 +70,24 @@ a {
     background-color: hotpink;
 }
 /*header styles end*/
+
+.game-unmust-button.button {
+    background-color: red;
+    transition: 0.5s;
+}
+
+.game-unmust-button.button:hover {
+    color: red;
+    background-color: black;
+}
+
+.game-must-button.button
+{
+    background-color: hotpink;
+    transition: 0.5s;
+}
+
+.game-must-button.button:hover {
+    color: hotpink;
+    background-color: black;
+}

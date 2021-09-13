@@ -10,4 +10,6 @@ urlpatterns = [
     path('logout', LogoutView.as_view(), {'next_page': settings.LOGOUT_REDIRECT_URL}, name='logout'),
     # Since this page is available only to authorized users, I decided not to make a slug. Should I remake this?
     path('profile', views.UserProfileView.as_view(), name='profile_page'),
+    path('my_musts', views.UserMustsView.as_view(), name='musts'),
+    path('musts', views.musts, name='musts_update')
 ]

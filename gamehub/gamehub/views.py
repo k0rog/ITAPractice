@@ -2,6 +2,7 @@ from .utils.igdb_connector import IGDBWrapper
 from .utils.twitter_connector import TwitterWrapper
 from django.views.generic import ListView, DetailView
 from django.http import Http404
+from users.models import CustomUser
 
 
 class GamesListView(ListView):
@@ -17,6 +18,13 @@ class GamesListView(ListView):
 
         igdb_api = IGDBWrapper()
         games = igdb_api.get_game_list(params)
+
+        if self.request.user and self.request.user.is_authenticated:
+            for game in games:
+                if CustomUser.objects.filter(pk=self.request.user.id, musts__igdb_id=game['id']).exists():
+                    game['in_musts'] = True
+                else:
+                    game['in_musts'] = False
 
         return games
 
@@ -36,6 +44,12 @@ class GameDetailView(DetailView):
                                  params=params)
         if not game:
             raise Http404('Game not found')
+
+        if self.request.user and self.request.user.is_authenticated:
+            if CustomUser.objects.filter(pk=self.request.user.id, musts__igdb_id=game['id']).exists():
+                game['in_musts'] = True
+            else:
+                game['in_musts'] = False
 
         return game
 
