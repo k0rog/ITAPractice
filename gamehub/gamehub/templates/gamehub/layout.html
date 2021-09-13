@@ -27,7 +27,7 @@
                 <span class="user-activities__greeting">
                     Hello, <a href="{% url 'profile_page' %}" class="user-activities__profile">{{ request.user.username }}!</a>
                 </span>
-                <button class="must-button user-activities__activity">My MUSTs</button>
+                <a href="{% url 'musts' %}" class="must-button user-activities__activity">My MUSTs</a>
                 <a href="{% url 'logout' %}" class="user-activities__activity">Logout</a>
             {% endif %}
         </div>
@@ -37,6 +37,74 @@
 {% block content %}
 {% endblock %}
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function delete_from_musts(event) {
+      $.ajax({
+          type: 'DELETE',
+          headers:{
+              'X-CSRFToken': getCookie('csrftoken'),
+          },
+          data: {
+              'igdb_id':`${$(this).attr('id').split('=')[1]}`
+          },
+          url: '{% url 'musts_update' %}',
+          success: function (response) {
+            $(event.target).removeClass('game-unmust-button');
+            $(event.target).addClass('game-must-button');
+            $(event.target).html('must');
+            $(event.target).unbind('click')
+            $(event.target).click(return_to_musts)
+          },
+          error: function (response) {
+          }
+      });
+  }
+
+function return_to_musts(event) {
+  $.ajax({
+      type: 'POST',
+      headers:{
+          'X-CSRFToken': getCookie('csrftoken'),
+      },
+      data: {
+          'igdb_id':`${$(this).attr('id').split('=')[1]}`
+      },
+      url: '{% url 'musts_update' %}',
+      success: function (response) {
+        $(event.target).removeClass('game-must-button');
+        $(event.target).addClass('game-unmust-button');
+        $(event.target).html('unmust');
+        $(event.target).unbind('click')
+        $(event.target).click(delete_from_musts)
+      },
+      error: function (response) {
+      }
+  });
+  return false;
+}
+
+$(document).ready(function () {
+  $('.game-unmust-button').click(delete_from_musts);
+
+  $('.game-must-button').click(return_to_musts);
+})
+</script>
 {% block scripts %}
 {% endblock %}
 </body>

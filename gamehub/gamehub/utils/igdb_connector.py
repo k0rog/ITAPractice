@@ -18,6 +18,15 @@ class IGDBWrapper:
     def get_game_list(self, params):
         return self.get_data_from_endpoint('games', params=params)
 
+    def get_game_by_id(self, identifier):
+        params = {
+            'fields': 'name, slug, cover.url',
+            'where': f'id={identifier}'
+        }
+
+        game = self.get_data_from_endpoint('games', params=params)[0]
+        return game
+
     def get_game(self, game_name, params):
         # The value of the search parameter must be wrapped by ""
         params['search'] = f'"{game_name.replace("-", " ")}"'
