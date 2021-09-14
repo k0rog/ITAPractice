@@ -1,4 +1,5 @@
-from django.views.generic.edit import CreateView, UpdateView
+from django.views import View
+from django.views.generic.edit import CreateView
 from django.contrib.auth.views import LoginView
 from django.views.generic import TemplateView, ListView
 from django.urls import reverse_lazy
@@ -11,7 +12,7 @@ from gamehub.utils.igdb_connector import IGDBWrapper
 from gamehub.models import Game
 from .models import CustomUser
 from .utils.mixins import AuthenticatedMixin
-from django.http import HttpResponseForbidden, HttpResponse, HttpResponseNotAllowed
+from django.http import HttpResponse
 
 
 class SignUpView(CreateView):
@@ -75,32 +76,25 @@ class UserMustsView(ListView):
         return games
 
 
-# Didn't find a suitable class
-def musts(request):
-    if not request.user or not request.user.is_authenticated:
-        return HttpResponseForbidden()
+class MustsView(AuthenticatedMixin, View):
+    http_method_names = ['post', 'delete']
 
-    if request.method not in ['POST', 'DELETE']:
-        return HttpResponseNotAllowed(['POST', 'DELETE'])
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
 
-    body = request.body.decode(request.encoding)
-    igdb_id = int(body.split('=')[-1])
+        body = request.body.decode(request.encoding)
+        igdb_id = int(body.split('=')[-1])
 
-    # temporary. It's obvious, games will always exist when I will pull them from IGDB to database
-    try:
-        game = Game.objects.get(igdb_id=igdb_id)
-    except Game.DoesNotExist:
-        game = Game.objects.create(igdb_id=igdb_id)
+        game, _ = Game.objects.get_or_create(igdb_id=igdb_id)
+        user = CustomUser.objects.get(pk=request.user.id)
 
-    user = CustomUser.objects.get(pk=request.user.id)
+        self.game = game
+        self.user = user
 
-    if request.method == 'DELETE':
-        user.musts.remove(game)
-    elif request.method == 'POST':
-        user.musts.add(game)
+    def delete(self, *args, **kwargs):
+        self.user.musts.remove(self.game)
+        return HttpResponse(status=200)
 
-    return HttpResponse(status=200)
-
-
-
-
+    def post(self, *args, **kwargs):
+        self.user.musts.add(self.game)
+        return HttpResponse(status=200)
