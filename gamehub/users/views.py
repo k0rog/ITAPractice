@@ -20,7 +20,6 @@ class SignUpView(CreateView):
         self.object.age = get_age_from_birth_date(form.cleaned_data['birth_date'])
         self.object.save()
 
-        # Should I do this in the other place?
         send_mail(subject='Registration',
                   message='You successfully registered at GameHub',
                   from_email=None,

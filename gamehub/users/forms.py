@@ -10,9 +10,6 @@ class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(widget=forms.PasswordInput, label='Repeat password')
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     def clean_birth_date(self):
         birth_date = self.cleaned_data['birth_date']
         age = get_age_from_birth_date(birth_date)
@@ -62,11 +59,13 @@ class UserAuthorizationForm(forms.ModelForm):
         password = self.cleaned_data['password']
 
         if not CustomUser.objects.filter(username=username).exists():
-            raise forms.ValidationError(f'Username {username} not found')
+            raise forms.ValidationError(f'"Login was unsuccessful. Try again. '
+                                        f'The user name or password provided is incorrect.')
 
         user = CustomUser.objects.filter(username=username).first()
         if user and not user.check_password(password):
-            raise forms.ValidationError('Wrong password')
+            raise forms.ValidationError(f'"Login was unsuccessful. Try again. '
+                                        f'The user name or password provided is incorrect.')
 
         return self.cleaned_data
 
