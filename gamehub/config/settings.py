@@ -5,7 +5,7 @@ import django_heroku
 import dj_database_url
 
 
-dotenv.load_dotenv('../.env')
+# dotenv.load_dotenv('../.env')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
