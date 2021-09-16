@@ -1,29 +1,22 @@
 import os
 from pathlib import Path
+import dotenv
+
+
+dotenv.load_dotenv('../.env')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-os.environ['SECRET_KEY'] = 'django-insecure-5=qx+gt@jfv7wwiv(s1u#aztmo-t=r4o7@1y&wwfgw)$vf460z'
-os.environ['Client_id'] = 'wm1nb6p094b62w3amq21mbbnx418hu'
-os.environ['Client_secret'] = 'scur949jwewiphhxwqvuicuilbwmcc'
-os.environ['Bearer_token'] = 'AAAAAAAAAAAAAAAAAAAAAKzZTQEAAAAAka8KZhKajSZfaXmr4ZOS0ncipl0' \
-                             '%3DVkTwjUbKn4cIPUSgKz9UjxC632RpW2OIa0B7UKKjxaXNA7s9eG '
-os.environ['DB_name'] = 'vcuatnce'
-os.environ['DB_password'] = 'v0eYeBwxnm2N4_tVc7SJgA787h-Rt447'
-os.environ['Email_sender'] = 'avramneoko6@gmail.com'
-os.environ['Email_password'] = '321ilyxazc'
+IGDB_CLIENT_ID = os.environ.get('CLIENT_ID')
+IGDB_CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
+TWITTER_BEARER_TOKEN = os.environ.get('BEARER_TOKEN')
 
+DB_NAME = os.environ.get('DB_NAME')
+DB_PASSWORD = os.environ.get('DB_PASSWORD')
 
-IGDB_CLIENT_ID = os.environ.get('Client_id')
-IGDB_CLIENT_SECRET = os.environ.get('Client_secret')
-TWITTER_BEARER_TOKEN = os.environ.get('Bearer_token')
-
-DB_NAME = os.environ.get('DB_name')
-DB_PASSWORD = os.environ.get('DB_password')
-
-DEFAULT_FROM_EMAIL = os.environ.get('Email_sender')
-EMAIL_HOST_USER = os.environ.get('Email_sender')
-EMAIL_HOST_PASSWORD = os.environ.get('Email_password')
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_SENDER')
+EMAIL_HOST_USER = os.environ.get('EMAIL_SENDER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
