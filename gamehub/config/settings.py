@@ -1,11 +1,8 @@
 import os
 from pathlib import Path
-import dotenv
 import django_heroku
 import dj_database_url
 
-
-# dotenv.load_dotenv('../.env')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -115,5 +112,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGOUT_REDIRECT_URL = 'games'
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 django_heroku.settings(locals())
