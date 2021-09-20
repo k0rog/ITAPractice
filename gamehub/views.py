@@ -10,15 +10,14 @@ class GamesListView(ListView):
     template_name = 'gamehub/index.html'
 
     def get_queryset(self):
-        params = {
-            'fields': 'name, genres.name, cover.url, slug',
-            'limit': 6,
-            'where': 'cover != null'
-        }
-
+        # params = {
+        #     'fields': 'name, genres.name, cover.url, slug',
+        #     'limit': 50,
+        #     'where': 'cover != null'
+        # }
         igdb_api = IGDBWrapper()
-        games = igdb_api.get_game_list(params)
-
+        games = igdb_api.get_game_list2()
+        print(len(games))
         if self.request.user and self.request.user.is_authenticated:
             for game in games:
                 if CustomUser.objects.filter(pk=self.request.user.id, musts__igdb_id=game['id']).exists():
@@ -34,6 +33,7 @@ class GameDetailView(DetailView):
     context_object_name = 'game'
 
     def get_object(self, queryset=None):
+
         params = {
             'fields': 'name, genres.name, platforms.abbreviation, summary,'
                       'first_release_date, rating, rating_count,'
