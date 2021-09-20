@@ -9,10 +9,10 @@ class IGDBWrapper:
     _expires_in = None
     _current_token = None
     ROOT_ENDPOINT = 'https://api.igdb.com/v4/'
-    OLDEST_GAME_RELEASE_DATE = round(time.mktime(datetime(year=2021, month=5, day=1).timetuple()))
+    OLDEST_GAME_RELEASE_DATE = round(time.mktime(datetime(year=2020, month=1, day=1).timetuple()))
     GAME_FIELDS = ['name', 'genres.name', 'cover.url', 'slug', 'genres.name', 'platforms.abbreviation', 'summary',
                    'first_release_date', 'rating', 'rating_count',
-                   'aggregated_rating', 'aggregated_rating_count']
+                   'aggregated_rating', 'aggregated_rating_count', 'screenshots.url']
 
     def __init__(self):
         self.__headers = {
@@ -23,18 +23,39 @@ class IGDBWrapper:
     def get_game_list(self):
         params = {
             'fields': ', '.join(IGDBWrapper.GAME_FIELDS),
-            'limit': self.get_games_count()
+            # Without specifying a limit, it returns 10 games despite filtering
+            'limit': 20,
+            # 'limit': self.get_games_count(),
+            'where': f"first_release_date > {IGDBWrapper.OLDEST_GAME_RELEASE_DATE} & "
+                     f"{' & '.join([field + '!=null' for field in IGDBWrapper.GAME_FIELDS])}"
         }
-        return self.get_data_from_endpoint('games', params)
+        raw_games = self.get_data_from_endpoint('games', params)
+
+        games = []
+        for raw_game in raw_games:
+            raw_game['first_release_date'] = datetime.fromtimestamp(raw_game['first_release_date']).date()
+            raw_game['rating'] = round(raw_game['rating'] / 10, 1)
+            raw_game['aggregated_rating'] = round(raw_game['aggregated_rating'] / 10, 1)
+
+            game = {
+                'id': raw_game['id'],
+                'genres': raw_game['genres'],
+                'platforms': raw_game['platforms'],
+                'screenshots': raw_game['screenshots'],
+            }
+
+            game['defaults'] = {k: v for k, v in raw_game.items() if k not in game.keys()}
+
+            games.append(game)
+
+        return games
 
     def get_games_count(self):
         params = {
             'where': f"first_release_date > {IGDBWrapper.OLDEST_GAME_RELEASE_DATE} & "
                      f"{' & '.join([field+'!=null' for field in IGDBWrapper.GAME_FIELDS])}"
         }
-        return self.get_data_from_endpoint('games/count', params=params)
-    # def get_game_list(self, params):
-    #     return self.get_data_from_endpoint('games', params=params)
+        return self.get_data_from_endpoint('games/count', params=params)['count']
 
     def get_game_by_id(self, identifier):
         params = {

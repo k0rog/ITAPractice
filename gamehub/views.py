@@ -3,6 +3,7 @@ from .utils.twitter_connector import TwitterWrapper
 from django.views.generic import ListView, DetailView
 from django.http import Http404
 from users.models import CustomUser
+from .models import Game, Genre, Platform, Screenshot
 
 
 class GamesListView(ListView):
@@ -10,20 +11,22 @@ class GamesListView(ListView):
     template_name = 'gamehub/index.html'
 
     def get_queryset(self):
-        # params = {
-        #     'fields': 'name, genres.name, cover.url, slug',
-        #     'limit': 50,
-        #     'where': 'cover != null'
-        # }
-        igdb_api = IGDBWrapper()
-        games = igdb_api.get_game_list2()
-        print(len(games))
+        games = Game.objects.get(pk=10)
+        games.genres = games.genres.get_queryset()
+        print(games)
+        # print(games)
+        # print(games[0])
+        # print(games[0].genres)
+        # for game in games:
+        #     game.genres = Genre.objects.filter(game=game)
+        #     game.platforms = Platform.objects.filter(game=game)
+
         if self.request.user and self.request.user.is_authenticated:
             for game in games:
-                if CustomUser.objects.filter(pk=self.request.user.id, musts__igdb_id=game['id']).exists():
-                    game['in_musts'] = True
+                if CustomUser.objects.filter(pk=self.request.user.id, musts__igdb_id=game.igdb_id).exists():
+                    game.in_musts = True
                 else:
-                    game['in_musts'] = False
+                    game.in_musts = False
 
         return games
 

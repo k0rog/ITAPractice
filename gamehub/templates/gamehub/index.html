@@ -67,7 +67,7 @@
         <div class="games">
             {% for game in games %}
             <div class="games__game game">
-                <img alt="{{ game.name }}" src="{{ game.cover.url }}" class="game__image"/>
+                <img alt="{{ game.name }}" src="{{ game.cover }}" class="game__image"/>
                 <div class="description">
                     <span class="description__title">{{ game.name }}</span>
                     <ul class="description__genres genres">
