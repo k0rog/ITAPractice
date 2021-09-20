@@ -1,4 +1,5 @@
 import requests
+import time
 from datetime import datetime, timedelta
 from django.conf import settings
 
@@ -8,6 +9,10 @@ class IGDBWrapper:
     _expires_in = None
     _current_token = None
     ROOT_ENDPOINT = 'https://api.igdb.com/v4/'
+    OLDEST_GAME_RELEASE_DATE = round(time.mktime(datetime(year=2021, month=5, day=1).timetuple()))
+    GAME_FIELDS = ['name', 'genres.name', 'cover.url', 'slug', 'genres.name', 'platforms.abbreviation', 'summary',
+                   'first_release_date', 'rating', 'rating_count',
+                   'aggregated_rating', 'aggregated_rating_count']
 
     def __init__(self):
         self.__headers = {
@@ -15,8 +20,21 @@ class IGDBWrapper:
             'Authorization': f'Bearer {self._get_token()}'
         }
 
-    def get_game_list(self, params):
-        return self.get_data_from_endpoint('games', params=params)
+    def get_game_list(self):
+        params = {
+            'fields': ', '.join(IGDBWrapper.GAME_FIELDS),
+            'limit': self.get_games_count()
+        }
+        return self.get_data_from_endpoint('games', params)
+
+    def get_games_count(self):
+        params = {
+            'where': f"first_release_date > {IGDBWrapper.OLDEST_GAME_RELEASE_DATE} & "
+                     f"{' & '.join([field+'!=null' for field in IGDBWrapper.GAME_FIELDS])}"
+        }
+        return self.get_data_from_endpoint('games/count', params=params)
+    # def get_game_list(self, params):
+    #     return self.get_data_from_endpoint('games', params=params)
 
     def get_game_by_id(self, identifier):
         params = {
@@ -50,11 +68,11 @@ class IGDBWrapper:
 
     def get_screenshots(self, game_id):
         params = {
-                'fields': 'url',
-                'where': f"game = {game_id}",
-                'limit': 6,
-                'sort': 'popularity desc'
-            }
+            'fields': 'url',
+            'where': f"game = {game_id}",
+            'limit': 6,
+            'sort': 'popularity desc'
+        }
         return self.get_data_from_endpoint('screenshots', params=params)
 
     def get_data_from_endpoint(self, endpoint, params):
