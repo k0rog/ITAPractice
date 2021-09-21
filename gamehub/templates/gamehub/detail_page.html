@@ -32,7 +32,7 @@
         <h2 class="header-level2">Screenshots</h2>
         <div class="screenshots">
             <ul class="screenshots__list">
-                {% for screenshot in screenshots %}
+                {% for screenshot in game.screenshots.all %}
                 <li><img src="{{ screenshot.url }}" alt=""></li>
                 {% endfor %}
             </ul>
@@ -63,14 +63,14 @@
 
         <h2 class="header-level2">Genres</h2>
         <ul class="genres">
-            {% for genre in game.genres %}
+            {% for genre in game.genres.all %}
             <li class="genres__genre">{{ genre.name }}</li>
             {% endfor %}
         </ul>
         <h2 class="header-level2">Platforms</h2>
         <ul class="platforms">
-            {% for platform in game.platforms %}
-            <li class="platforms__platform">{{ platform.abbreviation }}</li>
+            {% for platform in game.platforms.all %}
+            <li class="platforms__platform">{{ platform.name }}</li>
             {% endfor %}
         </ul>
     </section>

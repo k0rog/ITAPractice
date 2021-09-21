@@ -8,11 +8,11 @@ from django.contrib.auth import authenticate, login
 from .forms import UserRegistrationForm, UserAuthorizationForm
 from .utils.functions import get_age_from_birth_date
 from django.core.mail import send_mail
-from gamehub.utils.igdb_connector import IGDBWrapper
 from gamehub.models import Game
 from .models import CustomUser
 from .utils.mixins import AuthenticatedMixin
 from django.http import HttpResponse
+from django.db.models import Count
 
 
 class SignUpView(CreateView):
@@ -64,14 +64,7 @@ class UserMustsView(ListView):
     def get_queryset(self):
         user = self.request.user
 
-        igdb_api = IGDBWrapper()
-
-        games = []
-        for must_game in user.musts.all():
-            users_added = CustomUser.objects.filter(musts__igdb_id=must_game.igdb_id).count()
-            game = igdb_api.get_game_by_id(must_game.igdb_id)
-            game['users_added'] = users_added
-            games.append(game)
+        games = Game.objects.filter(customuser=user).annotate(users_added=Count('customuser'))
 
         return games
 
@@ -85,7 +78,7 @@ class MustsView(AuthenticatedMixin, View):
         body = request.body.decode(request.encoding)
         igdb_id = int(body.split('=')[-1])
 
-        game, _ = Game.objects.get_or_create(igdb_id=igdb_id)
+        game = Game.objects.get(igdb_id=igdb_id)
         user = CustomUser.objects.get(pk=request.user.id)
 
         self.game = game

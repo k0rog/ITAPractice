@@ -36,6 +36,7 @@ class IGDBWrapper:
             raw_game['first_release_date'] = datetime.fromtimestamp(raw_game['first_release_date']).date()
             raw_game['rating'] = round(raw_game['rating'] / 10, 1)
             raw_game['aggregated_rating'] = round(raw_game['aggregated_rating'] / 10, 1)
+            raw_game['cover'] = raw_game['cover']['url']
 
             game = {
                 'id': raw_game['id'],
@@ -56,45 +57,6 @@ class IGDBWrapper:
                      f"{' & '.join([field+'!=null' for field in IGDBWrapper.GAME_FIELDS])}"
         }
         return self.get_data_from_endpoint('games/count', params=params)['count']
-
-    def get_game_by_id(self, identifier):
-        params = {
-            'fields': 'name, slug, cover.url',
-            'where': f'id={identifier}'
-        }
-
-        game = self.get_data_from_endpoint('games', params=params)[0]
-        return game
-
-    def get_game(self, game_name, params):
-        # The value of the search parameter must be wrapped by ""
-        params['search'] = f'"{game_name.replace("-", " ")}"'
-
-        response = self.get_data_from_endpoint('games', params=params)
-
-        # Returns games by degree of collision.
-        # If not found, we will raise 404. If found - return the most probable
-        if len(response) == 0:
-            return None
-        game = response[0]
-
-        # Put the data in order
-        game['first_release_date'] = datetime.fromtimestamp(game['first_release_date']).strftime('%B %d, %Y')
-        if 'rating' in game:
-            game['rating'] = round(game['rating'] / 10, 1)
-        if 'aggregated_rating' in game:
-            game['aggregated_rating'] = round(game['aggregated_rating'] / 10, 1)
-
-        return game
-
-    def get_screenshots(self, game_id):
-        params = {
-            'fields': 'url',
-            'where': f"game = {game_id}",
-            'limit': 6,
-            'sort': 'popularity desc'
-        }
-        return self.get_data_from_endpoint('screenshots', params=params)
 
     def get_data_from_endpoint(self, endpoint, params):
         # Converting a dictionary to a string of the desired format for a query
