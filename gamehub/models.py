@@ -26,4 +26,4 @@ class Game(models.Model):
 
 class Screenshot(models.Model):
     url = models.URLField()
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name='screenshots')

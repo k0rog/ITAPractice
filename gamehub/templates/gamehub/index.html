@@ -71,7 +71,7 @@
                 <div class="description">
                     <span class="description__title">{{ game.name }}</span>
                     <ul class="description__genres genres">
-                        {% for genre in game.genres %}
+                        {% for genre in game.genres.all %}
                         <li><button class="genres__genre list-element">{{ genre.name }}</button></li>
                         {% endfor %}
                     </ul>
