@@ -24,7 +24,7 @@ class IGDBWrapper:
         params = {
             'fields': ', '.join(IGDBWrapper.GAME_FIELDS),
             # Without specifying a limit, it returns 10 games despite filtering
-            'limit': 20,
+            'limit': 5,
             # 'limit': self.get_games_count(),
             'where': f"first_release_date > {IGDBWrapper.OLDEST_GAME_RELEASE_DATE} & "
                      f"{' & '.join([field + '!=null' for field in IGDBWrapper.GAME_FIELDS])}"

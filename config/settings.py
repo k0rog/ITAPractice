@@ -36,8 +36,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'gamehub',
-    'users.apps.UsersConfig'
+    'gamehub.apps.GamehubConfig',
+    'users.apps.UsersConfig',
+    'django_celery_beat',
+    'django_celery_results',
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -117,3 +119,10 @@ LOGOUT_REDIRECT_URL = 'games'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Celery Configuration Options
+CELERY_TIMEZONE = 'Europe/Minsk'
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'django-db'

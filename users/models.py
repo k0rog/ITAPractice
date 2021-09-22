@@ -4,5 +4,7 @@ from gamehub.models import Game
 
 
 class CustomUser(AbstractUser):
-    age = models.IntegerField()
+    age = models.IntegerField(null=True)
     musts = models.ManyToManyField(Game)
+    is_staff = models.BooleanField()
+    is_superuser = models.BooleanField()
