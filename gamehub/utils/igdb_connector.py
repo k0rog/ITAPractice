@@ -10,7 +10,8 @@ class IGDBWrapper:
     _current_token = None
     ROOT_ENDPOINT = 'https://api.igdb.com/v4/'
     OLDEST_GAME_RELEASE_DATE = round(time.mktime(datetime(year=2020, month=1, day=1).timetuple()))
-    GAME_FIELDS = ['name', 'genres.name', 'cover.url', 'slug', 'genres.name', 'platforms.abbreviation', 'summary',
+    GAME_FIELDS = ['name', 'genres.name', 'cover.url', 'slug', 'genres.name', 'platforms.name',
+                   'platforms.abbreviation', 'summary',
                    'first_release_date', 'rating', 'rating_count',
                    'aggregated_rating', 'aggregated_rating_count', 'screenshots.url']
 
@@ -24,7 +25,6 @@ class IGDBWrapper:
         params = {
             'fields': ', '.join(IGDBWrapper.GAME_FIELDS),
             # Without specifying a limit, it returns 10 games despite filtering
-            # 'limit': 5,
             'limit': self.get_games_count(),
             'where': f"first_release_date > {IGDBWrapper.OLDEST_GAME_RELEASE_DATE} & "
                      f"{' & '.join([field + '!=null' for field in IGDBWrapper.GAME_FIELDS])}"

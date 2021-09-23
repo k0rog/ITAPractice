@@ -11,9 +11,9 @@ class Platform(models.Model):
 
 class Game(models.Model):
     igdb_id = models.IntegerField()
-    name = models.CharField(max_length=100)
-    cover = models.URLField()
-    slug = models.SlugField()
+    name = models.CharField(max_length=150)
+    cover = models.URLField(max_length=150)
+    slug = models.SlugField(max_length=150)
     first_release_date = models.DateField()
     rating = models.FloatField()
     rating_count = models.IntegerField()

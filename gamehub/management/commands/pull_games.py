@@ -14,7 +14,6 @@ class Command(BaseCommand):
                 igdb_id=game['id'],
                 defaults=game['defaults']
             )
-
             for screenshot in game['screenshots']:
                 Screenshot.objects.get_or_create(url=screenshot['url'], game=new_game)
 
@@ -23,5 +22,8 @@ class Command(BaseCommand):
                 new_game.genres.add(genre)
 
             for platform in game['platforms']:
-                platform, _ = Platform.objects.get_or_create(name=platform['abbreviation'])
+                try:
+                    platform, _ = Platform.objects.get_or_create(name=platform['abbreviation'])
+                except KeyError:
+                    platform, _ = Platform.objects.get_or_create(name=platform['name'])
                 new_game.platforms.add(platform)

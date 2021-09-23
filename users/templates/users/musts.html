@@ -15,14 +15,14 @@
     <ul class="games">
         {% for game in games %}
             <div class="games__game game">
-                <img alt="{{ game.name }}" src="{{ game.cover.url }}" class="game__image"/>
+                <img alt="{{ game.name }}" src="{{ game.cover }}" class="game__image"/>
                 <div class="game__description description">
                     <div class="col1">
                         <span class="description__title">{{ game.name }}</span>
                         <span class="description__users-added">Users added: {{ game.users_added }}</span>
                     </div>
                     <div class="col2">
-                        <button class="game-unmust-button button" id="igdb_id={{ game.id }}">UNMust</button>
+                        <button class="game-unmust-button button" id="igdb_id={{ game.igdb_id }}">UNMust</button>
                     </div>
                 </div>
             </div>
