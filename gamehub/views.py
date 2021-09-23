@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView
 from users.models import CustomUser
 from .models import Game
 from django.shortcuts import get_object_or_404
+from django.db.models import Exists, F, OuterRef
 
 
 class GamesListView(ListView):
@@ -10,11 +11,10 @@ class GamesListView(ListView):
     template_name = 'gamehub/index.html'
 
     def get_queryset(self):
-        games = Game.objects.all()
-
-        if self.request.user and self.request.user.is_authenticated:
-            for game in games:
-                game.in_musts = CustomUser.objects.filter(pk=self.request.user.id, musts__igdb_id=game.igdb_id).exists()
+        # Limited for a while
+        games = Game.objects.all().annotate(
+            in_musts=Exists(CustomUser.objects.filter(pk=self.request.user.id, musts__igdb_id=OuterRef('igdb_id')))
+        )[:50]
 
         return games
 
@@ -25,9 +25,7 @@ class GameDetailView(DetailView):
 
     def get_object(self, queryset=None):
         game = get_object_or_404(Game, slug=self.kwargs['slug'])
-
-        if self.request.user and self.request.user.is_authenticated:
-            game.in_musts = CustomUser.objects.filter(pk=self.request.user.id, musts__igdb_id=game.igdb_id).exists()
+        game.in_musts = CustomUser.objects.filter(pk=self.request.user.id, musts__igdb_id=game.igdb_id).exists()
 
         return game
 

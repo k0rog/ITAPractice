@@ -77,9 +77,9 @@
                     </ul>
                     <a href="/{{ game.slug }}" class="description__open-link button">Open</a>
                 {% if game.in_musts %}
-                    <button class="game-unmust-button button" id="igdb_id={{ game.id }}">unMust</button>
+                    <button class="game-unmust-button button" id="igdb_id={{ game.igdb_id }}">unMust</button>
                 {% else %}
-                    <button class="game-must-button button" id="igdb_id={{ game.id }}">Must</button>
+                    <button class="game-must-button button" id="igdb_id={{ game.igdb_id }}">Must</button>
                 {% endif %}
                 </div>
             </div>

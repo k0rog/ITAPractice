@@ -24,6 +24,8 @@ class SignUpView(CreateView):
         self.object = form.save(commit=False)
         self.object.set_password(form.cleaned_data['password'])
         self.object.age = get_age_from_birth_date(form.cleaned_data['birth_date'])
+        self.object.is_superuser = False
+        self.object.is_staff = False
         self.object.save()
 
         send_mail(subject='Registration',
@@ -76,6 +78,7 @@ class MustsView(AuthenticatedMixin, View):
         super().setup(request, *args, **kwargs)
 
         body = request.body.decode(request.encoding)
+        print(body)
         igdb_id = int(body.split('=')[-1])
 
         game = Game.objects.get(igdb_id=igdb_id)
@@ -89,5 +92,6 @@ class MustsView(AuthenticatedMixin, View):
         return HttpResponse(status=200)
 
     def post(self, *args, **kwargs):
+        print(123)
         self.user.musts.add(self.game)
         return HttpResponse(status=200)
