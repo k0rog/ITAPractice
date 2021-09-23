@@ -13,7 +13,6 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'pulling-games-to-database': {
         'task': 'gamehub.tasks.pull_games',
-        'schedule': 1000,
-        # 'schedule': 10.0,
+        'schedule': 604800.0,
     }
 }
