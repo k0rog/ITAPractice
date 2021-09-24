@@ -41,9 +41,17 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'django_celery_results',
     'rest_framework',
+    'djoser',
+    'rest_framework.authtoken'
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
