@@ -5,4 +5,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('gamehub.urls')),
     path('users/', include('users.urls')),
+
+    path('api/v1/games/', include('gamehub.rest.urls')),
 ]

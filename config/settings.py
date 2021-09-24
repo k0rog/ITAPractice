@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'django_celery_beat',
     'django_celery_results',
+    'rest_framework',
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
