@@ -7,7 +7,7 @@ class GameListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Game
-        fields = ('id', 'name', 'slug', 'cover', 'genres',)
+        fields = ('id', 'igdb_id', 'name', 'slug', 'cover', 'genres',)
 
 
 class GameDetailSerializer(serializers.ModelSerializer):
