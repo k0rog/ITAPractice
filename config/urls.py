@@ -3,6 +3,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('', include('gamehub.urls')),
     path('users/', include('users.urls')),
 
@@ -10,4 +11,5 @@ urlpatterns = [
     path('api/v1/auth/', include('djoser.urls.authtoken')),
 
     path('api/v1/games/', include('gamehub.rest.urls')),
+    path('api/v1/users/', include('users.rest.urls')),
 ]

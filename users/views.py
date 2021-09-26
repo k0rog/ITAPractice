@@ -92,6 +92,5 @@ class MustsView(AuthenticatedMixin, View):
         return HttpResponse(status=200)
 
     def post(self, *args, **kwargs):
-        print(123)
         self.user.musts.add(self.game)
         return HttpResponse(status=200)
