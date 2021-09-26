@@ -53,6 +53,12 @@ REST_FRAMEWORK = {
     ),
 }
 
+DJOSER = {
+    'SERIALIZERS': {
+         'user_create': 'users.rest.serializers.UserRegistrationSerializer'
+    }
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
