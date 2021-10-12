@@ -4,15 +4,13 @@ from pathlib import Path
 import dotenv
 
 dotenv.load_dotenv('.env')
+dotenv.load_dotenv('.env.db')
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 IGDB_CLIENT_ID = os.environ.get('CLIENT_ID')
 IGDB_CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 TWITTER_BEARER_TOKEN = os.environ.get('BEARER_TOKEN')
-
-DB_NAME = os.environ.get('DB_NAME')
-DB_PASSWORD = os.environ.get('DB_PASSWORD')
 
 DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_SENDER')
 EMAIL_HOST_USER = os.environ.get('EMAIL_SENDER')
@@ -36,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'psycopg2',
     'gamehub.apps.GamehubConfig',
     'users.apps.UsersConfig',
     'django_celery_beat',
@@ -94,11 +93,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': DB_NAME,
-        'USER': DB_NAME,
-        'PASSWORD': DB_PASSWORD,
-        'HOST': 'hattie.db.elephantsql.com',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
         'PORT': 5432
     }
 }
@@ -140,4 +139,7 @@ CELERY_TIMEZONE = 'Europe/Minsk'
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_BROKER_URL')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
