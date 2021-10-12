@@ -1,0 +1,4 @@
+CREATE USER admin WITH PASSWORD 'gamehub';
+
+CREATE DATABASE gamehub_db;
+GRANT ALL PRIVILEGES ON DATABASE gamehub_db TO admin;

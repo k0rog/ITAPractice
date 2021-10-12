@@ -28,7 +28,7 @@
                     Hello, <a href="{% url 'profile_page' %}" class="user-activities__profile">{{ request.user.username }}!</a>
                 </span>
                 <a href="{% url 'musts' %}" class="must-button user-activities__activity">My MUSTs</a>
-                <a href="{% url 'logout' %}" class="user-activities__activity">Logout</a>
+                <a href="{% url 'quit' %}" class="user-activities__activity">Logout</a>
             {% endif %}
         </div>
     </div>
