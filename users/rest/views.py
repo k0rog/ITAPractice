@@ -8,7 +8,7 @@ from .serializers import UserDetailSerializer, UserMustSerializer
 
 class UserProfileView(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = CustomUser.objects.filter()
+    queryset = CustomUser.objects.all()
     serializer_class = UserDetailSerializer
 
 
