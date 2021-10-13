@@ -24,37 +24,33 @@
             <div class="sort-option">
             <label for="platform-picker">Platform</label>
             <select class="filter-form__platform-picker" size="1" name="platform" id="platform-picker">
-                <option value="PS5">PS5</option>
-                <option value="PC">PC</option>
-                <option value="XBox one">XBox one</option>
+                <option value="Select">Select</option>
+                {% for platform in platforms %}
+                <option value="{{ platform.name }}">{{ platform.name }}</option>
+                {% endfor %}
             </select>
-            <ul class="selected-filters">
-                <li class="list-element">PS5</li>
-                <li class="list-element">Xbox one</li>
-                <li class="list-element">PC</li>
+            <ul class="selected-platforms">
             </ul>
             </div>
             <div class="sort-option">
             <label for="genre-picker">Genre</label>
             <select class="filter-form__genre-picker" size="1" name="genre" id="genre-picker">
-                <option value="MOBA">MOBA</option>
-                <option value="TBS">TBS</option>
-                <option value="Multiplayer">Multiplayer</option>
+                <option value="Select">Select</option>
+                {% for genre in genres %}
+                <option value="{{ genre.name }}">{{ genre.name }}</option>
+                {% endfor %}
             </select>
-            <ul class="selected-filters">
-                <li class="list-element">MOBA</li>
-                <li class="list-element">Multiplayer</li>
-                <li class="list-element">Shooter</li>
+            <ul class="selected-genres">
             </ul>
             </div>
             <div class="sort-option">
-            <label for="slider">Rating</label>
+            <label for="slider" style="text-align: left">Rating</label>
             <div class="filters-form__rating-slider slider" id="slider">
                 <div id="target"></div>
             </div>
             </div>
-            <input class="filter-form__button button" type="submit" value="Apply">
         </form>
+        <button class="filter-form__button button" id="submit">Apply</button>
     </aside>
 
     <section class="games-list">
@@ -75,7 +71,13 @@
                         <li><button class="genres__genre list-element">{{ genre.name }}</button></li>
                         {% endfor %}
                     </ul>
+                    <ul class="description__platforms platforms" style="display: none">
+                        {% for platform in game.platforms.all %}
+                        <li><button class="platforms__platform">{{ platform.name }}</button></li>
+                        {% endfor %}
+                    </ul>
                     <a href="/{{ game.slug }}" class="description__open-link button">Open</a>
+                <span class="description__rating" style="display: none">{{ game.rating }}</span>
                 {% if user.is_authenticated %}
                     {% if game.in_musts %}
                         <button class="game-unmust-button button" id="igdb_id={{ game.igdb_id }}">unMust</button>
@@ -101,4 +103,71 @@
 {% block scripts %}
     <script src="{% static 'gamehub/libs/nouislider.min.js' %}"></script>
     <script src="{% static 'gamehub/js/main_page.js' %}"></script>
+
+    <script>
+    function process_select_change(target, list_class, element_class) {
+        if (target.value === 'Select') {
+            return
+        }
+        let selectedGenres = document.getElementsByClassName(element_class)
+        let counter = 0
+        for (let i=0; i < selectedGenres.length; i++) {
+            if (!(selectedGenres[i].textContent === target.value)) {
+                counter++
+            }
+         }
+        if (counter === selectedGenres.length) {
+            $(`.${list_class}`).append(`<li class="${element_class}">${target.value}</li>`)
+        }
+
+        $('.selected-genre').click(function () {
+            this.parentNode.removeChild(this)
+        })
+        $('.selected-platform').click(function () {
+            this.parentNode.removeChild(this)
+        })
+    }
+
+    function getNamesFromNodeList(nodeList) {
+        let result = []
+
+        for (let i=0; i<nodeList.length; i++) {
+            result.push(nodeList[i].textContent)
+        }
+        return result
+    }
+
+    $(document).ready(function () {
+        $('.filter-form__genre-picker').change(function () {
+            process_select_change(this, 'selected-genres', 'selected-genre')
+        })
+
+        $('.filter-form__platform-picker').change(function () {
+            process_select_change(this, 'selected-platforms', 'selected-platform')
+        })
+
+        $( ".filter-form__button" ).click(function() {
+            let ratings = document.getElementsByClassName('noUi-tooltip')
+            let lowerRating = Number(ratings[0].textContent)
+            let upperRating = Number(ratings[1].textContent)
+            let selectedGenres = getNamesFromNodeList(document.getElementsByClassName('selected-genre'))
+            let selectedPlatforms = getNamesFromNodeList(document.getElementsByClassName('selected-platform'))
+
+            $.each($('.games__game'), function (index, value) {
+                let gameGenres = getNamesFromNodeList(value.getElementsByClassName('genres__genre'))
+                let gamePlatforms = getNamesFromNodeList(value.getElementsByClassName('platforms__platform'))
+                let rating = Number(value.getElementsByClassName('description__rating')[0].textContent)
+
+                if (gameGenres.filter(x => selectedGenres.includes(x)).length !== 0 &&
+                    gamePlatforms.filter(x => selectedPlatforms.includes(x)).length !== 0 &&
+                    rating < upperRating && rating > lowerRating) {
+                    value.classList.remove('disabled_game')
+                } else {
+                    value.classList.add('disabled_game')
+                }
+             })
+        });
+
+    })
+    </script>
 {% endblock %}

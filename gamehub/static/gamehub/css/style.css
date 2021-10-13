@@ -34,11 +34,13 @@
     height: 100%;
     position: relative;
     z-index: 1;
+    text-align: center;
 }
 
 .filters__heading {
     margin: 10px 10px 0 50px;
     border-bottom: 2px solid black;
+    text-align: left;
 }
 
 .filters__form {
@@ -71,12 +73,14 @@
     border-bottom: 2px solid black;
 }
 
-.selected-filters {
+.selected-genres,
+.selected-platforms {
     display: flex;
     flex-wrap: wrap;
     margin: 10px 0 0 0;
 }
-.selected-filters > li {
+.selected-genres > li,
+.selected-platforms > li{
     margin: 5px 5px;
 }
     /* slider styles start */
@@ -119,6 +123,15 @@
 .filter-form > .filter-form__button {
     margin: 10px auto;
     height: 30px;
+}
+
+.filter-form__button {
+    background-color: rgb(239, 239, 239);
+    border-width: 2px;
+    border-style: outset;
+    border-color: rgb(118, 118, 118);
+    z-index: 100;
+    margin-top: 50px;
 }
 /*filters styles end*/
 
@@ -212,7 +225,9 @@
     justify-content: left;
 }
 
-.list-element {
+.selected-genre,
+.selected-platform,
+.list-element{
     background-color: white;
     border-radius: 10px;
     color: black;
@@ -223,7 +238,9 @@
     margin: 5px;
 }
 
-.list-element:hover {
+.selected-genre:hover,
+.selected-platform:hover,
+.list-element:hover{
     background-color: black;
     color: white;
 }
@@ -274,6 +291,10 @@
 
 .page-numbers__number:hover {
     opacity: 0.8;
+}
+
+.disabled_game {
+    display: none; !important;
 }
 /*games-list styles end*/
 

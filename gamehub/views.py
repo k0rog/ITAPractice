@@ -1,9 +1,9 @@
 from .utils.twitter_connector import TwitterWrapper
 from django.views.generic import ListView, DetailView
 from users.models import CustomUser
-from .models import Game
+from .models import Game, Platform, Genre
 from django.shortcuts import get_object_or_404
-from django.db.models import Exists, F, OuterRef
+from django.db.models import Exists, OuterRef
 
 
 class GamesListView(ListView):
@@ -14,9 +14,17 @@ class GamesListView(ListView):
         # Limited for a while
         games = Game.objects.all().annotate(
             in_musts=Exists(CustomUser.objects.filter(pk=self.request.user.id, musts__igdb_id=OuterRef('igdb_id')))
-        )[:50]
+        )[:10]
 
         return games
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context_data = super().get_context_data()
+
+        context_data['platforms'] = Platform.objects.all()
+        context_data['genres'] = Genre.objects.all()
+
+        return context_data
 
 
 class GameDetailView(DetailView):
