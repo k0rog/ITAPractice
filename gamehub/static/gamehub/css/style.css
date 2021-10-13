@@ -196,6 +196,7 @@
     z-index: 2;
     width: 100%;
     background-color: rgba(190, 190, 190, 0.9);
+    padding-bottom: 5px;
 }
 
 .description__title {

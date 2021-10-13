@@ -16,10 +16,12 @@
 
         <div class="joiner">
         <h1 class="description-block__title">{{ game.name }}</h1>
-            {% if game.in_musts %}
-            <button class="button game-unmust-button" id="igdb_id={{ game.igdb_id }}">unMust</button>
-            {% else %}
-            <button class="button game-must-button" id="igdb_id={{ game.igdb_id }}">Must</button>
+            {% if user.is_authenticated %}
+                {% if game.in_musts %}
+                <button class="button game-unmust-button" id="igdb_id={{ game.igdb_id }}">unMust</button>
+                {% else %}
+                <button class="button game-must-button" id="igdb_id={{ game.igdb_id }}">Must</button>
+                {% endif %}
             {% endif %}
         </div>
 
