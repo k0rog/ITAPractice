@@ -7,8 +7,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         igdb_api = IGDBWrapper()
 
-        games = igdb_api.get_game_list()[:5]
-
+        games = igdb_api.get_game_list()[:50]
         for i, game in enumerate(games):
             new_game, created = Game.objects.update_or_create(
                 igdb_id=game['id'],
