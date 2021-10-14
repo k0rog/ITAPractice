@@ -37,7 +37,6 @@ class GamesListView(ListView):
         context_data['games'] = context_data['games'][0+(page-1)*30:page*30]
 
         context_data['last_page'] = last_page
-        context_data['page'] = int(self.request.GET.get('page', 1))
         context_data['platforms'] = Platform.objects.all()
         context_data['genres'] = Genre.objects.all()
 
