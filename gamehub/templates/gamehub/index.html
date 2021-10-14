@@ -54,7 +54,6 @@
     </aside>
 
     <section class="games-list">
-
         <form class="search-form" action="" method="get">
           <input class="search-form__input" name="search" placeholder="Type here..." type="search">
           <button class="search-form__button" type="submit"></button>
@@ -65,7 +64,7 @@
             <div class="games__game game">
                 <img alt="{{ game.name }}" src="{{ game.cover }}" class="game__image"/>
                 <div class="description">
-                    <span class="description__title">{{ game.name }}</span>
+                    <span class="description__title">{{ game.name }} {{ game.igdb_id }}</span>
                     <ul class="description__genres genres">
                         {% for genre in game.genres.all %}
                         <li><button class="genres__genre list-element">{{ genre.name }}</button></li>
@@ -90,8 +89,9 @@
             {% endfor %}
         </div>
 
+        <span class="last-page disabled">{{ last_page }}</span>
         <ul class="page-numbers">
-            <li class="page-numbers__number page-numbers__number_selected"><span>1</span></li>
+            <li class="page-numbers__number"><span>1</span></li>
             <li class="page-numbers__number"><span>2</span></li>
             <li class="page-numbers__number"><span>3</span></li>
         </ul>
@@ -137,7 +137,76 @@
         return result
     }
 
+    function getGamesFromServer(href) {
+        if (href.match(/page=(\d+)/) === null) {
+            href += `&page=1`
+        }
+        $.ajax({
+            type: 'GET',
+            url: href,
+            success: function (response) {
+                $('.games-list').
+                replaceWith(response.match(/(<section class="games-list">(.|\n|\r)*<\/section>)/)[0])
+
+                history.replaceState(null,null, href)
+
+                let pages = document.getElementsByClassName('page-numbers__number')
+                for (let i = 0; i < pages.length; i++) {
+                    pages[i].onclick = pagesClick
+                }
+                configurePages()
+            },
+            error: function (response) {
+                alert('The server is not responding')
+            }
+        })
+    }
+
+    function configurePages() {
+        let currentPage = location.href.match(/page=(\d+)/)
+        currentPage = (currentPage !== null) ? Number(currentPage[1]) : 1
+        let lastPage = document.getElementsByClassName('last-page')[0].textContent
+
+        if (currentPage > lastPage) {
+            currentPage = lastPage
+            location.href = location.href.replace(/page=(\d+)/, `page=${currentPage}`)
+         }
+
+        let startPage, selectedIndex
+        switch (currentPage) {
+            case 1:
+                startPage = 1
+                selectedIndex = 0
+                break
+            case lastPage:
+                startPage = currentPage - 2
+                selectedIndex = 2
+                break
+            default:
+                startPage = currentPage - 1
+                selectedIndex = 1
+        }
+
+        $('.page-numbers__number').each(function (index, value) {
+            if (index === selectedIndex) {
+                value.classList.add('page-numbers__number_selected')
+            }
+            value.textContent = String(startPage++)
+        })
+    }
+
+    function pagesClick(event) {
+            let clickedPage = Number(event.target.textContent)
+            if (location.href.match(/page=(\d+)/) === null) {
+                location.href = location.href + `?page=${clickedPage}`
+            } else {
+                location.href = location.href.replace(/page=(\d+)/, `page=${clickedPage}`)
+            }
+        }
+
     $(document).ready(function () {
+        configurePages()
+
         $('.filter-form__genre-picker').change(function () {
             process_select_change(this, 'selected-genres', 'selected-genre')
         })
@@ -153,21 +222,22 @@
             let selectedGenres = getNamesFromNodeList(document.getElementsByClassName('selected-genre'))
             let selectedPlatforms = getNamesFromNodeList(document.getElementsByClassName('selected-platform'))
 
-            $.each($('.games__game'), function (index, value) {
-                let gameGenres = getNamesFromNodeList(value.getElementsByClassName('genres__genre'))
-                let gamePlatforms = getNamesFromNodeList(value.getElementsByClassName('platforms__platform'))
-                let rating = Number(value.getElementsByClassName('description__rating')[0].textContent)
-
-                if (gameGenres.filter(x => selectedGenres.includes(x)).length !== 0 &&
-                    gamePlatforms.filter(x => selectedPlatforms.includes(x)).length !== 0 &&
-                    rating < upperRating && rating > lowerRating) {
-                    value.classList.remove('disabled_game')
-                } else {
-                    value.classList.add('disabled_game')
-                }
-             })
+            let params = []
+            params.push(`lower_rating=${lowerRating}`)
+            params.push(`upper_rating=${upperRating}`)
+            if (selectedGenres.length !== 0) {
+                params.push(`genres=${selectedGenres.join(',')}`)
+            }
+            if (selectedPlatforms.length !== 0) {
+                params.push(`platforms=${selectedPlatforms.join(',')}`)
+            }
+            getGamesFromServer('{% url 'games' %}'+`?${params.join('&')}`)
         });
 
+        let pages = document.getElementsByClassName('page-numbers__number')
+        for (let i = 0; i < pages.length; i++) {
+            pages[i].onclick = pagesClick
+        }
     })
     </script>
 {% endblock %}

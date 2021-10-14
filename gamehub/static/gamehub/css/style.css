@@ -293,7 +293,7 @@
     opacity: 0.8;
 }
 
-.disabled_game {
+.disabled_game, .disabled {
     display: none; !important;
 }
 /*games-list styles end*/
