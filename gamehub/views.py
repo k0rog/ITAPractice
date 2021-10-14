@@ -12,15 +12,32 @@ class GamesListView(ListView):
 
     def get_queryset(self):
         # Limited for a while
-        games = Game.objects.all().annotate(
+        lower_rating = float(self.request.GET.get('lower_rating', '0'))
+        upper_rating = float(self.request.GET.get('upper_rating', '10'))
+        genres = self.request.GET.get('genres', ','.join([genre.name for genre in Genre.objects.all()])).split(',')
+        platforms = self.request.GET.get('platforms', ','.join([platform.name for platform in Platform.objects.all()])).split(',')
+
+        games = Game.objects.filter(rating__gte=lower_rating, rating__lte=upper_rating,
+                                    genres__name__in=genres,
+                                    platforms__name__in=platforms).annotate(
             in_musts=Exists(CustomUser.objects.filter(pk=self.request.user.id, musts__igdb_id=OuterRef('igdb_id')))
-        )[:10]
+        ).distinct()
 
         return games
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context_data = super().get_context_data()
 
+        games_count = len(context_data['games'])
+        last_page = games_count // 30
+        if games_count % 30 != 0:
+            last_page += 1
+
+        page = int(self.request.GET.get('page', 1))
+        context_data['games'] = context_data['games'][0+(page-1)*30:page*30]
+
+        context_data['last_page'] = last_page
+        context_data['page'] = int(self.request.GET.get('page', 1))
         context_data['platforms'] = Platform.objects.all()
         context_data['genres'] = Genre.objects.all()
 
