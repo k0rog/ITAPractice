@@ -4,6 +4,7 @@ from users.models import CustomUser
 from .models import Game, Platform, Genre
 from django.shortcuts import get_object_or_404
 from django.db.models import Exists, OuterRef
+from django.http import Http404
 
 
 class GamesListView(ListView):
@@ -34,7 +35,12 @@ class GamesListView(ListView):
             last_page += 1
 
         page = int(self.request.GET.get('page', 1))
-        context_data['games'] = context_data['games'][0+(page-1)*30:page*30]
+        if page == 0:
+            context_data['games'] = []
+        elif page < 0:
+            raise Http404("Page not found")
+        else:
+            context_data['games'] = context_data['games'][0+(page-1)*30:page*30]
 
         context_data['last_page'] = last_page
         context_data['platforms'] = Platform.objects.all()

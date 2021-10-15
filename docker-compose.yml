@@ -51,4 +51,4 @@ services:
       - db
     restart: always
     ports:
-      - '80:80'
+      - '81:80'
